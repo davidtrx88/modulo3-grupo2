@@ -82,6 +82,19 @@ public class Uno implements Juego {
         }
         ultimaCarta = baraja.getCarta();
     }
+    
+    public void mostrarUltimaCarta(){
+        System.out.println("La úlima carta es:");              
+        
+        if(ultimaCarta instanceof Normal){
+            Normal normal = (Normal) ultimaCarta;
+            System.out.println("    "+normal.getNumero()+" "+normal.getColor());
+        }
+        else if(ultimaCarta instanceof Especial){
+            Especial especial = (Especial) ultimaCarta;
+            System.out.println("    "+especial.getTipo()+" "+especial.getColor());
+        }                
+    }
 
     /**
      * El jugador roba una carta de la baraja
@@ -102,6 +115,17 @@ public class Uno implements Juego {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
+    public void mostrarCartasJugador(){
+        for(int i=0;i<jugadores.size();i++){
+            Jugador jugador = jugadores.get(i);
+            
+            if(jugador instanceof JugadorReal){
+                JugadorReal jr = (JugadorReal) jugador;
+                jr.mostrarCartasMano();
+            }
+        }
+    }
+    
     /**
      * Comprueba que la carta jugada por un jugador es válida o no en función de la 
      * última carta que se jugó.
@@ -109,13 +133,21 @@ public class Uno implements Juego {
      * @throws ExcepcionJugadaNoValida 
      */
     public void validarJugada(Carta cartaJugador) throws ExcepcionJugadaNoValida{
-        if(ultimaCarta.getNumero()==-1){ //Es una carta especial
-            if(!ultimaCarta.getTipo().equalsIgnoreCase(cartaJugador.getTipo())){
-                throw new ExcepcionJugadaNoValida();
-            }
+        if(ultimaCarta instanceof Especial){           
+            if(cartaJugador instanceof Especial){
+                Especial ultimaEspecial = (Especial) ultimaCarta;
+                Especial jugadorEspecial = (Especial) cartaJugador;
+                
+                if(!ultimaEspecial.getTipo().equalsIgnoreCase(jugadorEspecial.getTipo())){
+                    throw new ExcepcionJugadaNoValida();
+                }
+            }            
         }
-        else{ //es una carta normal
-            if(ultimaCarta.getNumero() != cartaJugador.getNumero() || !ultimaCarta.getColor().equalsIgnoreCase(cartaJugador.getColor())){
+        else {
+            Normal ultimaNormal = (Normal) ultimaCarta;
+            Normal jugadorNormal = (Normal) cartaJugador;
+            
+            if(ultimaNormal.getNumero() != jugadorNormal.getNumero() && !ultimaNormal.getColor().equalsIgnoreCase(jugadorNormal.getColor())){
                 throw new ExcepcionJugadaNoValida();
             }
         }

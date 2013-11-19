@@ -17,5 +17,6 @@ public interface Jugador {
     
     public Carta realizarJugada(Carta ultimaCarta);
     public void cogerCarta(Carta carta);
+    public String getNombre();
     
 }

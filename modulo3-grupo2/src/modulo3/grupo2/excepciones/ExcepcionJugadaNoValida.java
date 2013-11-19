@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package modulo3.cartas.excepciones;
+package modulo3.grupo2.excepciones;
 
 /**
  *

@@ -77,6 +77,20 @@ public class JugadorReal implements Jugador{
         this.puntuacion = puntuacion;
     }
 
+    public void mostrarCartasMano(){
+        System.out.println("Las cartas del jugador "+nombre+" son:");
+        for(int i=0;i<mano.size();i++){             
+            Carta c = mano.get(i);
+            if(c instanceof Normal){
+                Normal normal = (Normal) c;
+                System.out.println("    "+normal.getNumero()+" "+normal.getColor());
+            }
+            else if(c instanceof Especial){
+                Especial especial = (Especial) c;
+                System.out.println("    "+especial.getTipo()+" "+especial.getColor());
+            }
+        }
+    }
     
     
 }

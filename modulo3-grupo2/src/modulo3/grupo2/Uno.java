@@ -68,6 +68,24 @@ public class Uno implements Juego {
             }
         }
     }
+    
+    public Jugador obtenerJugador(String nombre){
+        for(int i=0;i<jugadores.size();i++){
+            if(jugadores.get(i).getNombre().equalsIgnoreCase(nombre)){
+                return jugadores.get(i);                
+            }
+        } 
+        return null;
+    }
+    
+    public int obtenerPosicionJugador(String nombre){
+        for(int i=0;i<jugadores.size();i++){
+            if(jugadores.get(i).getNombre().equalsIgnoreCase(nombre)){
+                return i;
+            }
+        } 
+        return -1;
+    }    
 
     /**
      * Reparte las cartas para iniciar el juego
@@ -149,6 +167,28 @@ public class Uno implements Juego {
             
             if(ultimaNormal.getNumero() != jugadorNormal.getNumero() && !ultimaNormal.getColor().equalsIgnoreCase(jugadorNormal.getColor())){
                 throw new ExcepcionJugadaNoValida();
+            }
+        }
+    }
+    
+    public Carta getUltimaCarta(){
+        return ultimaCarta;
+    }
+    
+    public void setUltimaCarta(Carta c){
+        ultimaCarta = c;
+    }
+        
+    public void anadirCartaBaraja(Carta c){
+        baraja.anadirCarta(c);
+    }
+    
+    public void modificarTurno(Carta c, String nombreJugador){
+        int posicionUltimoJugador = this.obtenerPosicionJugador(nombreJugador);
+        
+        if(posicionUltimoJugador != -1){
+            if(c instanceof Especial){
+                //Ver aquí que tipo de carta es y establecer el turno del siguiente
             }
         }
     }

@@ -7,6 +7,7 @@
 package modulo3.grupo2;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 import modulo3.grupo2.interfaces.Jugador;
 
 /**
@@ -16,7 +17,7 @@ import modulo3.grupo2.interfaces.Jugador;
 public class JugadorReal implements Jugador{
     private String nombre;
     private int puntuacion;
-    private ArrayList<Carta> mano;
+    private ArrayList<Carta> mano;    
     
     /**
      *
@@ -24,7 +25,7 @@ public class JugadorReal implements Jugador{
     public JugadorReal(){
         nombre ="";
         puntuacion =0;
-        mano = new ArrayList<Carta>();
+        mano = new ArrayList<Carta>();        
     }
     
     /**
@@ -39,9 +40,19 @@ public class JugadorReal implements Jugador{
     }
 
     @Override
-    public Carta realizarJugada(Carta ultimaCarta) {
-     
-        return null;
+    public Carta realizarJugada(Carta ultimaCarta) {             
+        Scanner sc = new Scanner(System.in);
+        System.out.println("¿Qué carta quieres jugar? (Elige un número, 0 para robar)");
+        mostrarCartasMano();
+        int poscarta = sc.nextInt(); 
+        
+        if(poscarta == 0){
+            return null;
+        }
+        else{
+            return mano.get(poscarta-1);
+        }
+        
     }
 
     @Override
@@ -79,18 +90,22 @@ public class JugadorReal implements Jugador{
 
     public void mostrarCartasMano(){
         System.out.println("Las cartas del jugador "+nombre+" son:");
-        for(int i=0;i<mano.size();i++){             
+        int j; //Mostramos las cartas desde el número 1 para utilizar el 0 como opción robar.
+        for(int i=0;i<mano.size();i++){  
+            j=i+1;
             Carta c = mano.get(i);
             if(c instanceof Normal){
                 Normal normal = (Normal) c;
-                System.out.println("    "+normal.getNumero()+" "+normal.getColor());
+                System.out.println("   "+j+" -"+normal.getNumero()+" "+normal.getColor());
             }
             else if(c instanceof Especial){
                 Especial especial = (Especial) c;
-                System.out.println("    "+especial.getTipo()+" "+especial.getColor());
+                System.out.println("    "+j+" -"+especial.getTipo()+" "+especial.getColor());
             }
         }
     }
     
-    
+    public boolean comprobarGanador(){
+        return mano.isEmpty();
+    }
 }

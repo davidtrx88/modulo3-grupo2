@@ -5,7 +5,11 @@
 package modulo3.grupo2;
 
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import modulo3.grupo2.excepciones.ExcepcionJugadaNoValida;
 import modulo3.grupo2.interfaces.Juego;
+import modulo3.grupo2.interfaces.Jugador;
 
 /**
  *
@@ -54,11 +58,44 @@ public class Partida {
         //jugador real sus cartas.
         juego.crearBaraja();
         juego.repartir();
-        juego.mostrarUltimaCarta();
         juego.mostrarCartasJugador();
+        juego.mostrarUltimaCarta();
         
-        //Comienza el juego
         
+        //Comienza el juego        
+        boolean terminado = false;
+        boolean ultimaCartaValida = true;
+        
+        while(!terminado){
+            System.out.println("El turno es del jugador: "+juego.getTurno());
+            Jugador jugadorActual = juego.obtenerJugador(juego.getTurno());
+                       
+            if(jugadorActual instanceof JugadorReal){
+                Carta c = jugadorActual.realizarJugada(juego.getUltimaCarta());
+                
+                if(c == null){ //Quiere robar
+                    jugadorActual.cogerCarta(juego.darCarta());
+                    ultimaCartaValida = false;                    
+                }
+                else{
+                    try {
+                        juego.validarJugada(c);
+                    } catch (ExcepcionJugadaNoValida ex) {
+                        System.out.println("La carta jugada no es válida!!");
+                        jugadorActual.cogerCarta(c);
+                        ultimaCartaValida = false;
+                    }
+                }
+                
+                if(ultimaCartaValida){ //La carta que lanzó es jugador es válida
+                   juego.anadirCartaBaraja(juego.getUltimaCarta());
+                   juego.setUltimaCarta(c);                   
+                }
+                
+                
+            }
+        }
+
         
         
         

@@ -40,16 +40,30 @@ public class JugadorCartaEspecial implements Jugador{
 
     @Override
     public Carta realizarJugada(Carta ultimaCarta){
-        Carta c = new Carta();
-        boolean encontrado=false;
+        Carta ca = new Carta(); //esta variable la pongo para poder asignasele una de la pila boca abajo
+        Normal ultNormal = new Normal();
+        Especial ultEspecial = new Especial();
+        if(ultimaCarta instanceof Normal){
+            ultNormal = (Normal)ultimaCarta;
+        }else{
+            ultEspecial = (Especial)ultimaCarta;
+        }
         
+        boolean encontrado=false;
         if(!encontrado){
             for(int i=0; i<mano.size() && !encontrado; i++){
-                if(mano.get(i).getTipo().equalsIgnoreCase("Comodin roba 4") || mano.get(i).getTipo().equalsIgnoreCase("Comodin de color")){ // R4 es comodin roba cuatro y CC es comodin color
-                    c.setNumero(mano.get(i).getNumero()); 
-                    c.setValor(mano.get(i).getValor());
-                    c.setColor(mano.get(i).getColor());
-                    c.setTipo(mano.get(i).getTipo());
+                if(mano.get(i) instanceof Especial){ // Si es carta es de tipo Normal
+                    Especial especial = (Especial) mano.get(i);
+                    Especial c = new Especial();
+                    if(especial.getTipo().equalsIgnoreCase("Comodin roba 4") || especial.getTipo().equalsIgnoreCase("Comodin de color")){ // R4 es comodin roba cuatro y CC es comodin color
+                        c.setNumero(especial.getNumero()); 
+                        c.setValor(especial.getValor());
+                        c.setColor(especial.getColor());
+                        c.setTipo(especial.getTipo());
+                        
+                        
+                        return c;
+                    }
                     encontrado = true;
                     mano.remove(i);
                 }
@@ -57,11 +71,18 @@ public class JugadorCartaEspecial implements Jugador{
             }
         }else if(!encontrado){
             for(int i=0; i<mano.size() && !encontrado; i++){//mano es el arraylist donde estan las cartas de un jugador
-                if(mano.get(i).getNumero()== ultimaCarta.getNumero() && ultimaCarta.getNumero()>=0 ){
-                    c.setNumero(mano.get(i).getNumero()); 
-                    c.setValor(mano.get(i).getValor());
-                    c.setColor(mano.get(i).getColor());
+                if(mano.get(i) instanceof Normal){ // Si es carta es de tipo Normal
+                    Normal normal = (Normal)mano.get(i);
+                    Normal c = new Normal();
                     
+                    if(normal.getNumero()== ultimaCarta.getNumero() && ultimaCarta.getNumero()>=0 ){
+                        c.setNumero(normal.getNumero()); 
+                        c.setValor(normal.getValor());
+                        c.setColor(normal.getColor());
+
+                        
+                        return c;
+                    }
                     encontrado = true;
                     mano.remove(i);
                 }
@@ -69,35 +90,49 @@ public class JugadorCartaEspecial implements Jugador{
             }
         }else if(!encontrado){
             for(int i=0; i<mano.size() && !encontrado; i++){
-                if(mano.get(i).getColor()== ultimaCarta.getColor() && mano.get(i).getTipo()==NULL){
-                    c.setNumero(mano.get(i).getNumero()); 
-                    c.setValor(mano.get(i).getValor());
-                    c.setColor(mano.get(i).getColor());
-                    c.setTipo(mano.get(i).getTipo());  
+                if(mano.get(i) instanceof Normal){ // Si es carta es de tipo Normal
+                    Normal normal = (Normal) mano.get(i);
+                    Normal c = new Normal();
+                
+                    if(normal.getColor().equalsIgnoreCase(ultNormal.getColor()) && normal.getTipo().equalsIgnoreCase("NULL")){
+                        c.setNumero(normal.getNumero()); 
+                        c.setValor(normal.getValor());
+                        c.setColor(normal.getColor());
+
+                        
+                         return c;
+                    }
                     encontrado = true;
-                     mano.remove(i);
+                    mano.remove(i);
                 }
             }
             
         }else if(!encontrado){
             for(int i=0; i<mano.size() && !encontrado; i++){
-                if(mano.get(i).getColor()== ultimaCarta.getColor()&& mano.get(i).getTipo()!=NULL){
-                    c.setNumero(mano.get(i).getNumero()); 
-                    c.setValor(mano.get(i).getValor());
-                    c.setColor(mano.get(i).getColor());
-                    c.setTipo(mano.get(i).getTipo());
+                if(mano.get(i) instanceof Especial){ // Si es carta es de tipo Normal
+                    Especial especial = (Especial) mano.get(i);
+                    Especial c = new Especial();
+                    if(especial.getColor().equalsIgnoreCase(ultEspecial.getColor())&& especial.getTipo().equalsIgnoreCase("NULL")){
+                        c.setNumero(especial.getNumero()); 
+                        c.setValor(especial.getValor());
+                        c.setColor(especial.getColor());
+                        c.setTipo(especial.getTipo());
+                        
+                        
+                        return c;
+                    }
                     encontrado = true;
-                     mano.remove(i);
+                    mano.remove(i);
                 }
 
             }
         
         }else{// no se si iria aqui o como una condicion al llamar a la funcion realizarJugada
-            cogerCarta(c);//la carta que debe de coger es de la pila de robar
+            cogerCarta(ca);//la carta que debe de coger es de la pila de robar
             //pasarTurno();
             return null;
         }
-        return c;
+        return null;
     }
 
     @Override

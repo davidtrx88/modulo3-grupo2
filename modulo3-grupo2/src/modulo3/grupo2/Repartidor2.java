@@ -54,6 +54,7 @@ public class Repartidor2 implements Jugador{
                 mano.add(car);
             }else if(punt<=21){
                 //parar
+                return null;
                 //comparar
             }else
                 excedido=true;

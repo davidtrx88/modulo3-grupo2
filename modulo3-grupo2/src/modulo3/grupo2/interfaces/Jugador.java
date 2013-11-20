@@ -6,7 +6,6 @@
 
 package modulo3.grupo2.interfaces;
 
-import java.util.ArrayList;
 import modulo3.grupo2.Carta;
 
 /**
@@ -18,5 +17,6 @@ public interface Jugador {
     public Carta realizarJugada(Carta ultimaCarta);
     public void cogerCarta(Carta carta);
     public String getNombre();
+    public boolean tieneCartas();
     
 }

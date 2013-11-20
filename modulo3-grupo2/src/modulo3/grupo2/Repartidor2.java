@@ -112,6 +112,9 @@ public class Repartidor2 implements Jugador{
         this.mano = mano;
     }
 
-    
+    @Override
+    public boolean tieneCartas() {
+        return mano.isEmpty();
+    }    
     
 }

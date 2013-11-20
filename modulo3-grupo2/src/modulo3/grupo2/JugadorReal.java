@@ -108,4 +108,9 @@ public class JugadorReal implements Jugador{
     public boolean comprobarGanador(){
         return mano.isEmpty();
     }
+
+    @Override
+    public boolean tieneCartas() {
+        return mano.isEmpty();
+    }
 }

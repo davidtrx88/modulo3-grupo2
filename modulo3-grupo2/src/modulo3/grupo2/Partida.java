@@ -65,34 +65,86 @@ public class Partida {
         //Comienza el juego        
         boolean terminado = false;
         boolean ultimaCartaValida = true;
+        int robasiguiente = -1;
+        boolean jugadorAnteriorRobo = false;
         
         while(!terminado){
-            System.out.println("El turno es del jugador: "+juego.getTurno());
-            Jugador jugadorActual = juego.obtenerJugador(juego.getTurno());
-                       
-            if(jugadorActual instanceof JugadorReal){
-                Carta c = jugadorActual.realizarJugada(juego.getUltimaCarta());
+            
+            if(robasiguiente != -1){ //Tiene que robar y pasar turno
+                System.out.println("El turno es del jugador: "+juego.getTurno()+" roba carta!");
+                Jugador jugadorActual = juego.obtenerJugador(juego.getTurno());
                 
-                if(c == null){ //Quiere robar
+                if(robasiguiente == 2){
                     jugadorActual.cogerCarta(juego.darCarta());
-                    ultimaCartaValida = false;                    
-                }
-                else{
-                    try {
-                        juego.validarJugada(c);
-                    } catch (ExcepcionJugadaNoValida ex) {
-                        System.out.println("La carta jugada no es válida!!");
-                        jugadorActual.cogerCarta(c);
-                        ultimaCartaValida = false;
+                    jugadorActual.cogerCarta(juego.darCarta());
+                    
+                    if(juego.getDireccion() == 1){
+                        juego.setTurno(juego.jugadorDerecha(jugadorActual.getNombre()));
                     }
+                    else{
+                        juego.setTurno(juego.jugadorIzquierda(jugadorActual.getNombre()));
+                    }
+                    System.out.println("Has robado 2 cartas!");
+                    robasiguiente = -1;
+                    jugadorAnteriorRobo = true;
                 }
-                
-                if(ultimaCartaValida){ //La carta que lanzó es jugador es válida
-                   juego.anadirCartaBaraja(juego.getUltimaCarta());
-                   juego.setUltimaCarta(c);                   
+                else if(robasiguiente == 4){
+                    jugadorActual.cogerCarta(juego.darCarta());
+                    jugadorActual.cogerCarta(juego.darCarta());
+                    jugadorActual.cogerCarta(juego.darCarta());
+                    jugadorActual.cogerCarta(juego.darCarta());
+                    if(juego.getDireccion() == 1){
+                        juego.setTurno(juego.jugadorDerecha(jugadorActual.getNombre()));
+                    }
+                    else{
+                        juego.setTurno(juego.jugadorIzquierda(jugadorActual.getNombre()));
+                    }
+                    System.out.println("Has robado 4 cartas!");
+                    robasiguiente = -1;
+                    jugadorAnteriorRobo = true;
                 }
-                
-                
+            }
+            else {
+                System.out.println("El turno es del jugador: "+juego.getTurno());
+                Jugador jugadorActual = juego.obtenerJugador(juego.getTurno());
+
+                if(jugadorActual instanceof JugadorReal){
+                    Carta c = jugadorActual.realizarJugada(juego.getUltimaCarta());
+
+                    if(c == null){ //Quiere robar
+                        jugadorActual.cogerCarta(juego.darCarta());
+                        ultimaCartaValida = false;                    
+                    }
+                    else{
+                        try {
+                            juego.validarJugada(c);
+                        } catch (ExcepcionJugadaNoValida ex) {
+                            System.out.println("La carta jugada no es válida!!");
+                            jugadorActual.cogerCarta(c);
+                            ultimaCartaValida = false;
+                        }
+                    }
+
+                    if(ultimaCartaValida){ //La carta que lanzó es jugador es válida
+                       if(c instanceof Especial){
+                           Especial cespecial = (Especial) c;
+                           if(cespecial.getTipo().equalsIgnoreCase("Comodin de color") ||cespecial.getTipo().equalsIgnoreCase("Comodin roba 4")){
+                               System.out.println("Elige un color...");
+                               String color = sc2.nextLine();
+                               cespecial.setColor(color);                          
+                           }
+                       }
+                       juego.anadirCartaBaraja(juego.getUltimaCarta());
+                       juego.setUltimaCarta(c);   
+                       robasiguiente = juego.modificarTurno(c, jugadorActual.getNombre());
+                       if(jugadorActual.tieneCartas() == false){
+                           terminado = true;
+                       }
+                    }                                
+                } 
+//                else{ //Si no es un jugador real
+//                    
+//                }
             }
         }
 

@@ -98,6 +98,9 @@ public class Repartidor implements Jugador{
         this.puntuacion = puntuacion;
     }
 
-    
+    @Override
+    public boolean tieneCartas() {
+        return mano.isEmpty();
+    }    
     
 }

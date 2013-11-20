@@ -11,16 +11,11 @@ package modulo3.grupo2;
 public class Normal extends Carta{
     
     
-    private String tipo;
+    
     private String color;
     
     public Normal(){}
-    public Normal(int numero, int valor, String color, String tipo){
-               
-                super(numero, valor);
-                this.color = color;
-                this.tipo="NULL";
-     }
+    
     public Normal (int numero, int valor, String color){
                
                 super(numero, valor);
@@ -41,19 +36,7 @@ public class Normal extends Carta{
         this.color = color;
     }
 
-    /**
-     * @return the tipo
-     */
-    public String getTipo() {
-        return tipo;
-    }
-
-    /**
-     * @param tipo the tipo to set
-     */
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+   
     
     
      

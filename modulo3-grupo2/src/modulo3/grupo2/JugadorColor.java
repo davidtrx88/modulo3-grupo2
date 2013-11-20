@@ -53,7 +53,7 @@ public class JugadorColor implements Jugador{
                     Normal normal = (Normal) mano.get(i);
                     Normal c = new Normal();
                 
-                    if(normal.getColor().equalsIgnoreCase(ultNormal.getColor()) && normal.getTipo().equalsIgnoreCase("NULL")){
+                    if(normal.getColor().equalsIgnoreCase(ultNormal.getColor())){
                         c.setNumero(normal.getNumero()); 
                         c.setValor(normal.getValor());
                         c.setColor(normal.getColor());

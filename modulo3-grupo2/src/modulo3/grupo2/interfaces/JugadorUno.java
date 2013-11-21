@@ -12,11 +12,12 @@ import modulo3.grupo2.Carta;
  *
  * @author Carmen M. Morillo Arias, David Cruz Toral, Mustafa Abdoun Bouali
  */
-public interface Jugador {
+public interface JugadorUno {
     
     public Carta realizarJugada(Carta ultimaCarta);
     public void cogerCarta(Carta carta);
     public String getNombre();
     public boolean tieneCartas();
+    public int calcularPuntuacion();
     
 }

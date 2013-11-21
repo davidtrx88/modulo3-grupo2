@@ -14,9 +14,10 @@ public interface Juego {
     
     public void crearBaraja();
     
-    public void anadirJugador(Jugador jugador);
+    public void anadirJugador(JugadorUno jugador);
+    public void anadirJugador(JugadorBlackjack jugador);
     
-    public void eliminarJugador(Jugador jugador);
+    public void eliminarJugador(JugadorUno jugador);
     
     public void repartir();
     

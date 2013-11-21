@@ -7,13 +7,13 @@
 package modulo3.grupo2;
 
 import java.util.ArrayList;
-import modulo3.grupo2.interfaces.Jugador;
+import modulo3.grupo2.interfaces.JugadorUno;
 
 /**
  *
  * @author Carmen M. Morillo Arias, David Cruz Toral, Mustafa Abdoun Bouali
  */
-public class JugadorColor implements Jugador{
+public class JugadorColor implements JugadorUno{
     private String nombre;
     private int puntuacion;
     private ArrayList<Carta> mano;
@@ -164,4 +164,12 @@ public class JugadorColor implements Jugador{
         return mano.isEmpty();
     }   
     
+    @Override
+    public int calcularPuntuacion() {
+        int puntos = 0;
+        for(int i=0;i<mano.size();i++){            
+            puntos = puntos+mano.get(i).getValor();
+        }
+        return puntos;
+    }    
 }

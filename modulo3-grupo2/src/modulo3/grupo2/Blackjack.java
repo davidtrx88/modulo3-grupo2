@@ -5,9 +5,10 @@
 package modulo3.grupo2;
 
 import java.util.LinkedList;
-import modulo3.grupo2.interfaces.Jugador;
 import modulo3.grupo2.interfaces.Juego;
 import java.util.List;
+import modulo3.grupo2.interfaces.JugadorBlackjack;
+import modulo3.grupo2.interfaces.JugadorUno;
 
 
 /**
@@ -16,26 +17,17 @@ import java.util.List;
  */
 public class Blackjack implements Juego{
     
-    private String turno;
     private Baraja baraja;
-    private List<Jugador> jugadores;
+    private List<JugadorBlackjack> jugadores;
     
     /**
-     * Jugador
+     * JugadorUno
      */
     public Blackjack() {
-        jugadores = new LinkedList<Jugador>();
+        jugadores = new LinkedList<JugadorBlackjack>();
         crearBaraja();        
     }
-
-    public String getTurno() {
-        return turno;
-    }
-
-    public void setTurno(String turno) {
-        this.turno = turno;
-    }          
-
+          
     /**
      * Crea la baraja con las cartas necesarias para el juego
      */
@@ -49,7 +41,7 @@ public class Blackjack implements Juego{
      * @param jugador jugador a añadir
      */    
     @Override
-    public void anadirJugador(Jugador jugador) {
+    public void anadirJugador(JugadorBlackjack jugador) {
         jugadores.add(jugador);
     }
 
@@ -58,7 +50,7 @@ public class Blackjack implements Juego{
      * @param jugador jugador a eliminar
      */    
     @Override
-    public void eliminarJugador(Jugador jugador) {
+    public void eliminarJugador(JugadorUno jugador) {
         for(int i=0;i<jugadores.size();i++){
             if(jugadores.get(i).getNombre().equalsIgnoreCase(jugador.getNombre())){
                 jugadores.remove(i);
@@ -74,7 +66,7 @@ public class Blackjack implements Juego{
     public void repartir() {
         for(int j=0;j<2;j++){
             for(int i=0;i<jugadores.size();i++){
-                Jugador jugador = jugadores.get(i);
+                JugadorBlackjack jugador = jugadores.get(i);
                 jugador.cogerCarta(baraja.getCarta());
             }        
         }
@@ -98,5 +90,41 @@ public class Blackjack implements Juego{
     public void guardarJuego() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-        
+
+    @Override
+    public void anadirJugador(JugadorUno jugador) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+//    public void calcularGanador(){
+//        int puntuacionjb = jb.getPuntuacion();
+//        int puntuacionjr = jr.getPuntuacion();
+//                
+//        if(puntuacionjb != puntuacionjr){
+//            if(puntuacionjb == 21){
+//                System.out.println("Enhorabuena! "+jb.getNombre()+" has ganado!");
+//            }
+//            else if(puntuacionjr == 21){
+//                System.out.println("Lo siento, "+jr.getNombre()+" ha ganado :(");
+//            }
+//            else if(puntuacionjr < 21 && puntuacionjb < 21){ //Si la puntuación de ambos <21 gana el que más se acerque
+//                if(puntuacionjr > puntuacionjb){
+//                    System.out.println("Lo siento, "+jr.getNombre()+" ha ganado :(");
+//                }
+//                else{
+//                    System.out.println("Enhorabuena! "+jb.getNombre()+" has ganado!");
+//                }
+//            }else if(puntuacionjr > 21 && puntuacionjb > 21){ //Si la puntuacion de ambos >21 gana el que más se acerque
+//                if(puntuacionjr < puntuacionjb){
+//                    System.out.println("Lo siento, "+jr.getNombre()+" ha ganado :(");
+//                }
+//                else{
+//                    System.out.println("Enhorabuena! "+jb.getNombre()+" has ganado!");
+//                }                
+//            }
+//        }
+//        else{ //El repartidor y el jugador tienen la misma puntuación
+//            System.out.println("Lo siento, "+jr.getNombre()+" ha ganado :(");
+//        }
+//    }
 }

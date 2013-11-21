@@ -7,63 +7,26 @@
 package modulo3.grupo2;
 
 import java.util.ArrayList;
-import modulo3.grupo2.interfaces.Jugador;
+import modulo3.grupo2.interfaces.JugadorBlackjack;
 
 /**
  *
  * @author Carmen M. Morillo Arias, David Cruz Toral, Mustafa Abdoun Bouali
  */
-public class Repartidor implements Jugador{
+public class Repartidor implements JugadorBlackjack{
     private String nombre;
-    private int puntuacion;
-    
+    private int puntuacion;    
     private ArrayList<Carta> mano;
     
     /**
-     *
+     * Constructor
      */
     public Repartidor(){
-        nombre ="";
-        puntuacion =0;
+        nombre ="Repartidor";
+        puntuacion = 0;
         mano = new ArrayList<Carta>();
     }
     
-    /**
-     *
-     * @param n
-     * @param p
-     */
-    public Repartidor(String n, int p){
-        this.nombre = n;
-        this.puntuacion = p;
-        mano = new ArrayList<Carta>();
-    }
-
-    @Override
-    public Carta realizarJugada(Carta carta) { //la carta que se pasa por parámetro tiene que ser la de la baraja
-        Carta car = new Carta();
-        int punt = 0;
-        boolean excedido= false;
-        while(!excedido){
-            for(int i = 0 ; i < mano.size() ; i++){
-
-                punt += mano.get(i).getValor();
-            }
-            if(punt<=16){
-                cogerCarta(car);
-                mano.add(car);
-            }else if(punt<=21){
-                //parar
-                return null;
-                //comparar
-            }else
-                excedido=true;
-                mano.clear();
-                //terminar
-                
-        }
-        return null;//que devuelvo??
-    }
 
     @Override
     public void cogerCarta(Carta carta) {
@@ -71,36 +34,38 @@ public class Repartidor implements Jugador{
     }
 
     /**
-     * @return the nombre
+     * @return nombre del jugador
      */
+    @Override
     public String getNombre() {
         return nombre;
     }
 
     /**
-     * @param nombre the nombre to set
+     * Calcula la puntuacion del jugador
+     * @return puntuaciond el jugador
      */
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    /**
-     * @return the puntuacion
-     */
+    @Override
     public int getPuntuacion() {
+        puntuacion = 0;
+        for(int i=0;i<mano.size();i++){
+            puntuacion = puntuacion+mano.get(i).getValor();
+        }        
         return puntuacion;
     }
 
     /**
-     * @param puntuacion the puntuacion to set
+     * Jugada realizada por el jugador repartidor
+     * @return true si quiere pedir carta, false si quiere parar de jugar
      */
-    public void setPuntuacion(int puntuacion) {
-        this.puntuacion = puntuacion;
-    }
-
     @Override
-    public boolean tieneCartas() {
-        return mano.isEmpty();
-    }    
+    public boolean realizarJugada() {                
+        if(puntuacion<=16) return true;
+        else return false;
+    }
     
+    public void mostrarPrimeraCarta(){
+        Inglesa cinglesa = (Inglesa) mano.get(0);
+        System.out.println("Carta del repartidor: "+cinglesa.getNumero()+" "+cinglesa.getPalo());
+    }
 }

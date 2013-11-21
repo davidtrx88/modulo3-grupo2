@@ -137,7 +137,7 @@ public class Baraja {
      * Saca una carta de la baraja
      * @return la carta sacada
      */
-    public Carta getCarta(){
+    public Carta getCarta(){        
         return cartas.removeFirst();
     }
     

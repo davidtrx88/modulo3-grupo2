@@ -8,13 +8,13 @@ package modulo3.grupo2;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import modulo3.grupo2.interfaces.Jugador;
+import modulo3.grupo2.interfaces.JugadorUno;
 
 /**
  *
  * @author Carmen M. Morillo Arias, David Cruz Toral, Mustafa Abdoun Bouali
  */
-public class JugadorReal implements Jugador{
+public class JugadorReal implements JugadorUno{
     private String nombre;
     private int puntuacion;
     private ArrayList<Carta> mano;    
@@ -124,5 +124,14 @@ public class JugadorReal implements Jugador{
     @Override
     public boolean tieneCartas() {        
         return mano.isEmpty();
+    }
+
+    @Override
+    public int calcularPuntuacion() {
+        int puntos = 0;
+        for(int i=0;i<mano.size();i++){            
+            puntos = puntos+mano.get(i).getValor();
+        }
+        return puntos;
     }
 }

@@ -18,7 +18,8 @@ public class Modulo3Grupo2 {
         System.out.println("------");
         
         Partida p = new Partida();
-        p.juegaUno();
+        //p.juegaUno();
+        p.juegaBlackJack();
         
         
     }

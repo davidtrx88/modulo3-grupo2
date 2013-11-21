@@ -6,7 +6,7 @@ package modulo3.grupo2;
 
 import java.util.Scanner;
 import modulo3.grupo2.excepciones.ExcepcionJugadaNoValida;
-import modulo3.grupo2.interfaces.Jugador;
+import modulo3.grupo2.interfaces.JugadorUno;
 
 /**
  *
@@ -78,7 +78,7 @@ public class Partida {
             
             if(robasiguiente != -1){ //Tiene que robar y pasar turno
                 System.out.println("El turno es del jugador: "+juego.getTurno()+" roba carta!");
-                Jugador jugadorActual = juego.obtenerJugador(juego.getTurno());
+                JugadorUno jugadorActual = juego.obtenerJugador(juego.getTurno());
                 
                 if(robasiguiente == 2){
                     jugadorActual.cogerCarta(juego.darCarta());
@@ -112,7 +112,7 @@ public class Partida {
             }
             else {
                 System.out.println("El turno es del jugador: "+juego.getTurno());
-                Jugador jugadorActual = juego.obtenerJugador(juego.getTurno());
+                JugadorUno jugadorActual = juego.obtenerJugador(juego.getTurno());
                 
                 
 
@@ -186,14 +186,55 @@ public class Partida {
                     }                                                                       
                 }
             }
-        }
-
-        
-        
-        
-        
+        }        
+        juego.mostrarRankingPuntuaciones();
     }
     
-    
+    public void juegaBlackJack(){
+        
+        Blackjack juego = new Blackjack();
+        
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Introduce el nombre del jugador ");
+        String nombre = sc.nextLine();
+
+        JugadorRealBlackjack jb = new JugadorRealBlackjack(nombre);            
+        juego.anadirJugador(jb);        
+        
+        //Poner aquí algo para que elija aleatoriamente al jugador repartidor
+        
+        Repartidor jr = new Repartidor();        
+        juego.anadirJugador(jr);
+        
+        juego.repartir();
+        jr.mostrarPrimeraCarta();
+        
+        boolean jbtermina = false;
+        
+        while(!jbtermina){
+            
+            if(jb.realizarJugada()){
+                jb.cogerCarta(juego.darCarta());                
+            }
+            else{                
+                jbtermina = true;
+            }
+        }
+        
+        boolean jrtermina = false;
+        
+        while(!jrtermina){
+            
+            if(jr.realizarJugada()){
+                jr.cogerCarta(juego.darCarta());
+                jr.getPuntuacion();
+            }
+            else{
+                jrtermina = true;
+            }
+        }
+        
+//        juego.calcularGanador();
+    }
     
 }

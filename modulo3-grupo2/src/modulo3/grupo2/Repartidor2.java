@@ -7,13 +7,13 @@
 package modulo3.grupo2;
 
 import java.util.ArrayList;
-import modulo3.grupo2.interfaces.Jugador;
+import modulo3.grupo2.interfaces.JugadorUno;
 
 /**
  *
  * @author Carmen M. Morillo Arias, David Cruz Toral, Mustafa Abdoun Bouali
  */
-public class Repartidor2 implements Jugador{
+public class Repartidor2 implements JugadorUno{
     private String nombre;
     private int puntuacion;
     
@@ -117,4 +117,12 @@ public class Repartidor2 implements Jugador{
         return mano.isEmpty();
     }    
     
+    @Override
+    public int calcularPuntuacion() {
+        int puntos = 0;
+        for(int i=0;i<mano.size();i++){            
+            puntos = puntos+mano.get(i).getValor();
+        }
+        return puntos;
+    }    
 }

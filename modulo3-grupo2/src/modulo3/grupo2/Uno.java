@@ -4,11 +4,16 @@
  */
 package modulo3.grupo2;
 
+import java.util.HashMap;
 import java.util.LinkedList;
-import modulo3.grupo2.interfaces.Jugador;
+import modulo3.grupo2.interfaces.JugadorBlackjack;
+import modulo3.grupo2.interfaces.JugadorUno;
 import modulo3.grupo2.interfaces.Juego;
 import modulo3.grupo2.excepciones.ExcepcionJugadaNoValida;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  *
@@ -18,7 +23,7 @@ public class Uno implements Juego {
     
     private String turno;
     private Baraja baraja;
-    private List<Jugador> jugadores;
+    private List<JugadorUno> jugadores;
     private Carta ultimaCarta;
     private int direccion; // 1=derecha, 2=izquierda
     
@@ -27,7 +32,7 @@ public class Uno implements Juego {
      */
     public Uno(){
         turno = "";        
-        jugadores = new LinkedList<Jugador>();
+        jugadores = new LinkedList<JugadorUno>();
         ultimaCarta = null;  
         direccion = 1; 
     }
@@ -66,7 +71,7 @@ public class Uno implements Juego {
      * @param jugador jugador a añadir
      */
     @Override
-    public void anadirJugador(Jugador jugador) {
+    public void anadirJugador(JugadorUno jugador) {
         jugadores.add(jugador);
     }
 
@@ -75,7 +80,7 @@ public class Uno implements Juego {
      * @param jugador jugador a eliminar
      */
     @Override
-    public void eliminarJugador(Jugador jugador) {
+    public void eliminarJugador(JugadorUno jugador) {
         for(int i=0;i<jugadores.size();i++){
             if(jugadores.get(i).getNombre().equalsIgnoreCase(jugador.getNombre())){
                 jugadores.remove(i);
@@ -84,7 +89,7 @@ public class Uno implements Juego {
         }
     }
     
-    public Jugador obtenerJugador(String nombre){
+    public JugadorUno obtenerJugador(String nombre){
         for(int i=0;i<jugadores.size();i++){
             if(jugadores.get(i).getNombre().equalsIgnoreCase(nombre)){
                 return jugadores.get(i);                
@@ -110,7 +115,7 @@ public class Uno implements Juego {
         System.out.println("Numero de jugadores: "+jugadores.size());
         for(int j=0;j<8;j++){
             for(int i=0;i<jugadores.size();i++){
-                Jugador jugador = jugadores.get(i);
+                JugadorUno jugador = jugadores.get(i);
                 jugador.cogerCarta(baraja.getCarta());
             }        
         }        
@@ -158,7 +163,7 @@ public class Uno implements Juego {
     
     public void mostrarCartasJugador(){
         for(int i=0;i<jugadores.size();i++){
-            Jugador jugador = jugadores.get(i);
+            JugadorUno jugador = jugadores.get(i);
             
             if(jugador instanceof JugadorReal){
                 JugadorReal jr = (JugadorReal) jugador;
@@ -333,7 +338,18 @@ public class Uno implements Juego {
                 return -1;
             }            
         }
-        return -1;
-        
+        return -1;        
     }
+    
+    public void mostrarRankingPuntuaciones(){
+//        Map<String, Integer> ranking = new HashMap();
+        for(int i=0;i<jugadores.size();i++){
+//            ranking.put(jugadores.get(i).getNombre(),jugadores.get(i).calcularPuntuacion());
+            System.out.println("Jugador: "+jugadores.get(i).getNombre()+" "+jugadores.get(i).calcularPuntuacion()+" puntos.");
+            
+        }
+    }
+
+    @Override
+    public void anadirJugador(JugadorBlackjack jugador) {}
 }

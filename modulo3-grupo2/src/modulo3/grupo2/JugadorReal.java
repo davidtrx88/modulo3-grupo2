@@ -44,15 +44,27 @@ public class JugadorReal implements Jugador{
         Scanner sc = new Scanner(System.in);
         System.out.println("¿Qué carta quieres jugar? (Elige un número, 0 para robar)");
         mostrarCartasMano();
-        int poscarta = sc.nextInt(); 
+        int poscarta; 
+        boolean cartaValida = false;       
+        int max = 0;
         
-        if(poscarta == 0){
-            return null;
-        }
-        else{
-            return mano.get(poscarta-1);
-        }
+        do{
+            poscarta = sc.nextInt();            
+            if(poscarta == 0){
+                return null;
+            }            
+            else if(poscarta <= mano.size()){                
+                cartaValida = true;
+                Carta c = mano.get(poscarta-1);
+                mano.remove(poscarta-1);
+                return c;
+            } 
+            else{
+                System.out.println("No tienes tantas cartas! Escoge un número válido...");
+            }
+        }while(!cartaValida); 
         
+        return null;
     }
 
     @Override
@@ -96,11 +108,11 @@ public class JugadorReal implements Jugador{
             Carta c = mano.get(i);
             if(c instanceof Normal){
                 Normal normal = (Normal) c;
-                System.out.println("   "+j+" -"+normal.getNumero()+" "+normal.getColor());
+                System.out.println("   ("+j+"). "+normal.getNumero()+" "+normal.getColor());
             }
             else if(c instanceof Especial){
                 Especial especial = (Especial) c;
-                System.out.println("    "+j+" -"+especial.getTipo()+" "+especial.getColor());
+                System.out.println("    ("+j+"). "+especial.getTipo()+" "+especial.getColor());
             }
         }
     }
@@ -110,7 +122,7 @@ public class JugadorReal implements Jugador{
     }
 
     @Override
-    public boolean tieneCartas() {
+    public boolean tieneCartas() {        
         return mano.isEmpty();
     }
 }

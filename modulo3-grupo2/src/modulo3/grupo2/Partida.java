@@ -5,10 +5,7 @@
 package modulo3.grupo2;
 
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import modulo3.grupo2.excepciones.ExcepcionJugadaNoValida;
-import modulo3.grupo2.interfaces.Juego;
 import modulo3.grupo2.interfaces.Jugador;
 
 /**
@@ -38,29 +35,28 @@ public class Partida {
         Scanner sc2 = new Scanner(System.in);
         for(int i=0;i<njugadores;i++){
             System.out.println("Introduce el nombre del jugador "+i);
-            String nombre = sc2.toString();
+            String nombre = sc2.nextLine();
             
             JugadorReal jr = new JugadorReal(nombre,0);            
             juego.anadirJugador(jr);
         }
         
-        //Si sólo hay un jugador, añadimos otros con distintas estrategias
-        if(njugadores == 1){
+        //Si sólo hay un jugador, añadimos otros con distintas estrategias        
+        if(njugadores == 1){            
             JugadorNumero jugador1 = new JugadorNumero("Jugador1",0);
             juego.anadirJugador(jugador1);
-            JugadorColor jugador2 = new JugadorColor("Jugador2",0);
-            juego.anadirJugador(jugador2);
-            JugadorCartaEspecial jugador3 = new JugadorCartaEspecial("Jugador3",0);
-            juego.anadirJugador(jugador3);
+//            JugadorColor jugador2 = new JugadorColor("Jugador2",0);
+//            juego.anadirJugador(jugador2);
+//            JugadorCartaEspecial jugador3 = new JugadorCartaEspecial("Jugador3",0);
+//            juego.anadirJugador(jugador3);
         }
         
         //Creamos la baraja, repartimos, mostramos la primera carta bocarriba, mostramos a cada
         //jugador real sus cartas.
         juego.crearBaraja();
         juego.repartir();
-        juego.mostrarCartasJugador();
-        juego.mostrarUltimaCarta();
-        
+        juego.mostrarCartasJugador();        
+        juego.setPrimerTurno();
         
         //Comienza el juego        
         boolean terminado = false;
@@ -68,7 +64,17 @@ public class Partida {
         int robasiguiente = -1;
         boolean jugadorAnteriorRobo = false;
         
+        //Si la primera carta es especial y el primer jugador tiene que robar, entonces modificamos
+        //robasiguiente para que robe las cartas necesarias, y dejamos como turno el del primer jugador.
+        if(juego.getUltimaCarta() instanceof Especial){            
+            robasiguiente = juego.modificarTurno(juego.getUltimaCarta(), juego.getTurno());
+            Especial primeraCarta = (Especial) juego.getUltimaCarta();
+            if(!primeraCarta.getTipo().equalsIgnoreCase("Cambio de sentido")){
+                juego.setPrimerTurno();
+            }            
+        }        
         while(!terminado){
+            juego.mostrarUltimaCarta();            
             
             if(robasiguiente != -1){ //Tiene que robar y pasar turno
                 System.out.println("El turno es del jugador: "+juego.getTurno()+" roba carta!");
@@ -107,6 +113,8 @@ public class Partida {
             else {
                 System.out.println("El turno es del jugador: "+juego.getTurno());
                 Jugador jugadorActual = juego.obtenerJugador(juego.getTurno());
+                
+                
 
                 if(jugadorActual instanceof JugadorReal){
                     Carta c = jugadorActual.realizarJugada(juego.getUltimaCarta());
@@ -118,12 +126,13 @@ public class Partida {
                     else{
                         try {
                             juego.validarJugada(c);
+                            ultimaCartaValida = true;
                         } catch (ExcepcionJugadaNoValida ex) {
                             System.out.println("La carta jugada no es válida!!");
                             jugadorActual.cogerCarta(c);
                             ultimaCartaValida = false;
                         }
-                    }
+                    }                                        
 
                     if(ultimaCartaValida){ //La carta que lanzó es jugador es válida
                        if(c instanceof Especial){
@@ -137,14 +146,45 @@ public class Partida {
                        juego.anadirCartaBaraja(juego.getUltimaCarta());
                        juego.setUltimaCarta(c);   
                        robasiguiente = juego.modificarTurno(c, jugadorActual.getNombre());
-                       if(jugadorActual.tieneCartas() == false){
+                       if(jugadorActual.tieneCartas() == true){                           
                            terminado = true;
                        }
                     }                                
                 } 
-//                else{ //Si no es un jugador real
-//                    
-//                }
+                else{
+                    Carta c = jugadorActual.realizarJugada(juego.getUltimaCarta());
+                    if(c == null){ //Quiere robar
+                        jugadorActual.cogerCarta(juego.darCarta());
+                        ultimaCartaValida = false;                    
+                    }
+                    else{
+                        try {
+                            juego.validarJugada(c);
+                            ultimaCartaValida = true;
+                        } catch (ExcepcionJugadaNoValida ex) {
+                            System.out.println("La carta jugada no es válida!!");
+                            jugadorActual.cogerCarta(c);
+                            ultimaCartaValida = false;
+                        }
+                    }                                        
+
+                    if(ultimaCartaValida){ //La carta que lanzó es jugador es válida
+//                       if(c instanceof Especial){
+//                           Especial cespecial = (Especial) c;
+//                           if(cespecial.getTipo().equalsIgnoreCase("Comodin de color") ||cespecial.getTipo().equalsIgnoreCase("Comodin roba 4")){
+//                               System.out.println("Elige un color...");
+//                               String color = sc2.nextLine();
+//                               cespecial.setColor(color);                          
+//                           }
+//                       }
+                       juego.anadirCartaBaraja(juego.getUltimaCarta());
+                       juego.setUltimaCarta(c);   
+                       robasiguiente = juego.modificarTurno(c, jugadorActual.getNombre());
+                       if(jugadorActual.tieneCartas() == true){                           
+                           terminado = true;
+                       }
+                    }                                                                       
+                }
             }
         }
 

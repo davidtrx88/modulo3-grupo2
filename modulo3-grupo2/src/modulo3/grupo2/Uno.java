@@ -47,7 +47,11 @@ public class Uno implements Juego {
 
     public void setTurno(String turno) {
         this.turno = turno;
-    }       
+    } 
+    
+    public void setPrimerTurno(){
+        turno = jugadores.get(0).getNombre();
+    }
 
     /**
      * Crea la baraja con las cartas necesarias para el juego
@@ -103,17 +107,25 @@ public class Uno implements Juego {
      */
     @Override
     public void repartir() {
+        System.out.println("Numero de jugadores: "+jugadores.size());
         for(int j=0;j<8;j++){
             for(int i=0;i<jugadores.size();i++){
                 Jugador jugador = jugadores.get(i);
                 jugador.cogerCarta(baraja.getCarta());
             }        
-        }
+        }        
         ultimaCarta = baraja.getCarta();
+        if(ultimaCarta instanceof Especial){
+            Especial ce = (Especial) ultimaCarta;
+            if(ce.getTipo().equalsIgnoreCase("Comodin roba 4")||ce.getTipo().equalsIgnoreCase("Comodin de color")){
+                ce.setColor("rojo");
+            }
+            
+        }
     }
     
     public void mostrarUltimaCarta(){
-        System.out.println("La úlima carta es:");              
+        System.out.println("La última carta es:");              
         
         if(ultimaCarta instanceof Normal){
             Normal normal = (Normal) ultimaCarta;
@@ -174,12 +186,15 @@ public class Uno implements Juego {
                         throw new ExcepcionJugadaNoValida();
                     }                
                 }
-                else{ //Si la carta no es comodín, entonces el tipo ha de coincidir.
-                    if(!ultimaEspecial.getTipo().equalsIgnoreCase(jugadorEspecial.getTipo())){
-                        throw new ExcepcionJugadaNoValida();
+                else{ //Si la carta no es comodín, entonces el tipo ha de coincidir o el color
+                    if(!jugadorEspecial.getTipo().equalsIgnoreCase("Comodin roba 4") && !jugadorEspecial.getTipo().equalsIgnoreCase("Comodin de color")){
+                        if(!ultimaEspecial.getTipo().equalsIgnoreCase(jugadorEspecial.getTipo())){
+                            if(!ultimaEspecial.getColor().equalsIgnoreCase(jugadorEspecial.getColor())){
+                                throw new ExcepcionJugadaNoValida();
+                            }                            
+                        }                    
                     }                    
                 }
-
             }
             else{ //Caso 2: especial - normal
                 Especial ultimaEspecial = (Especial) ultimaCarta;
@@ -194,8 +209,8 @@ public class Uno implements Juego {
             Normal ultimaNormal = (Normal) ultimaCarta;
             Especial jugadorEspecial = (Especial) cartaJugador;
             //Si ultimaCarta es normal y la lanzada no es comodín, entonces han de coincidir los colores
-            if(!jugadorEspecial.getTipo().equalsIgnoreCase("Comodin roba 4")||!jugadorEspecial.getTipo().equalsIgnoreCase("Comodin de color")){
-                if(!jugadorEspecial.getColor().equalsIgnoreCase(ultimaNormal.getColor())){
+            if(!jugadorEspecial.getTipo().equalsIgnoreCase("Comodin roba 4")&&!jugadorEspecial.getTipo().equalsIgnoreCase("Comodin de color")){
+                if(!jugadorEspecial.getColor().equalsIgnoreCase(ultimaNormal.getColor())){                    
                     throw new ExcepcionJugadaNoValida();
                 }
             }
@@ -225,8 +240,8 @@ public class Uno implements Juego {
     public String jugadorDerecha(String nombreJugador){
         int posicionJugadorActual = this.obtenerPosicionJugador(nombreJugador);
         
-        if(posicionJugadorActual == (jugadores.size()-1)){ //Si es el último, quien está a su derecha es el primero
-            return jugadores.get(0).getNombre();
+        if(posicionJugadorActual == (jugadores.size()-1)){ //Si es el último, quien está a su derecha es el primero     
+            return jugadores.get(0).getNombre();            
         }
         else{
             return jugadores.get(posicionJugadorActual+1).getNombre();
@@ -235,40 +250,45 @@ public class Uno implements Juego {
     
     public String jugadorIzquierda(String nombreJugador){
         int posicionJugadorActual = this.obtenerPosicionJugador(nombreJugador);
-        
+                
         if(posicionJugadorActual == 0){ //Si es el primero, quien está a su izquierda es el último
             return jugadores.get(jugadores.size()-1).getNombre();
         }
         else{
-            return jugadores.get(posicionJugadorActual-1).getNombre();
-        }    
+            return jugadores.get(posicionJugadorActual-1).getNombre();     
+        }            
+        
     }
     
     //Devuelve -1 si no tiene que robar, o el numero de cartas que tiene que robar
-    public int modificarTurno(Carta c, String nombreJugador){                        
+    public int modificarTurno(Carta c, String nombreJugador){         
         if(c instanceof Especial){
             //Ver aquí que tipo de carta es y establecer el turno del siguiente
             Especial cespecial = (Especial) c;
             if(cespecial.getTipo().equalsIgnoreCase("Salta turno")){
-                if(direccion == 1){
-                    turno = jugadorDerecha(nombreJugador);
+                if(direccion == 1){                    
+                    turno = jugadorDerecha(jugadorDerecha(nombreJugador));
                     return -1;
                 }
                 else{
-                    turno = jugadorIzquierda(nombreJugador);
+                    turno = jugadorIzquierda(jugadorIzquierda(nombreJugador));
                     return -1;
                 }
             }
             else if(cespecial.getTipo().equalsIgnoreCase("Cambio de sentido")){
-                if(direccion == 1){
+                if(direccion == 1){                      
+                    if(jugadores.size()>2){
+                       turno = jugadorIzquierda(nombreJugador);                    
+                    }                    
                     direccion = 2;
-                    turno = jugadorIzquierda(nombreJugador);
                     return -1;
                     
                 }
-                else{
+                else{   
+                    if(jugadores.size()>2){
+                        turno = jugadorDerecha(nombreJugador);                    
+                    }                   
                     direccion = 1;
-                    turno = jugadorDerecha(nombreJugador);
                     return -1;
                 }                
             }
@@ -301,6 +321,16 @@ public class Uno implements Juego {
                     turno = jugadorIzquierda(nombreJugador);
                     return 4;
                 }                
+            }            
+        }
+        else{ //Si la carta es normal
+            if(direccion == 1){                    
+                turno = jugadorDerecha(nombreJugador);                    
+                return -1;
+            }
+            else{                    
+                turno = jugadorIzquierda(nombreJugador);
+                return -1;
             }            
         }
         return -1;

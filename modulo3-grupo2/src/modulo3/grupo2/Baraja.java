@@ -6,8 +6,10 @@ package modulo3.grupo2;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -25,7 +27,7 @@ public class Baraja {
      */
     public Baraja(String tipo){
         
-        cartas = new ArrayDeque<Carta>();
+        List<Carta> cartassb = new ArrayList<Carta>();
         
         if(tipo.equalsIgnoreCase("uno")){
             numeroCartas = 108;
@@ -41,8 +43,8 @@ public class Baraja {
                 for(int i=0;i<10;i++){
                     Normal carta1 = new Normal(i,i,color);
                     Normal carta2 = new Normal(i,i,color);
-                    cartas.add(carta1);
-                    cartas.add(carta2);                
+                    cartassb.add(carta1);
+                    cartassb.add(carta2);                
                 }
                 Especial cartaroba1 = new Especial(20,color,"Roba 2");
                 Especial cartaroba2 = new Especial(20,color,"Roba 2");
@@ -51,31 +53,31 @@ public class Baraja {
                 Especial cartasalta1 = new Especial(20,color,"Salta turno");
                 Especial cartasalta2 = new Especial(20,color,"Salta turno");
                 
-                cartas.add(cartaroba1);
-                cartas.add(cartaroba2);
-                cartas.add(cartacambio1);
-                cartas.add(cartacambio2);
-                cartas.add(cartasalta1);
-                cartas.add(cartasalta2);
+                cartassb.add(cartaroba1);
+                cartassb.add(cartaroba2);
+                cartassb.add(cartacambio1);
+                cartassb.add(cartacambio2);
+                cartassb.add(cartasalta1);
+                cartassb.add(cartasalta2);
             } 
             
             Especial cartacomodin1 = new Especial(50,"Comodin de color");
             Especial cartacomodin2 = new Especial(50,"Comodin de color");
             Especial cartacomodin3 = new Especial(50,"Comodin de color");
             Especial cartacomodin4 = new Especial(50,"Comodin de color");
-            cartas.add(cartacomodin1);
-            cartas.add(cartacomodin2);
-            cartas.add(cartacomodin3);
-            cartas.add(cartacomodin4);
+            cartassb.add(cartacomodin1);
+            cartassb.add(cartacomodin2);
+            cartassb.add(cartacomodin3);
+            cartassb.add(cartacomodin4);
             
             Especial cartaroba1 = new Especial(50,"Comodin roba 4");
             Especial cartaroba2 = new Especial(50,"Comodin roba 4");
             Especial cartaroba3 = new Especial(50,"Comodin roba 4");
             Especial cartaroba4 = new Especial(50,"Comodin roba 4");
-            cartas.add(cartaroba1);
-            cartas.add(cartaroba2);
-            cartas.add(cartaroba3);
-            cartas.add(cartaroba4);
+            cartassb.add(cartaroba1);
+            cartassb.add(cartaroba2);
+            cartassb.add(cartaroba3);
+            cartassb.add(cartaroba4);
             
         }
         else if(tipo.equalsIgnoreCase("blackjack")){
@@ -93,7 +95,7 @@ public class Baraja {
                 Inglesa carta = new Inglesa(1,11,palo); 
                 for(int i=2;i<11;i++){
                     Inglesa carta2 = new Inglesa(i,i,palo); 
-                    cartas.add(carta2);
+                    cartassb.add(carta2);
                 }
 //                Inglesa cartaj = new Inglesa("J",10,palo);  
 //                Inglesa cartaq = new Inglesa("Q",10,palo);
@@ -102,13 +104,19 @@ public class Baraja {
                 Inglesa cartaq = new Inglesa(12,10,palo);
                 Inglesa cartak = new Inglesa(13,10,palo);  
                 
-                cartas.add(cartaj);
-                cartas.add(cartaq);
-                cartas.add(cartak);
+                cartassb.add(cartaj);
+                cartassb.add(cartaq);
+                cartassb.add(cartak);
             }        
         }
+     
+        //Barajamos las cartas
+        long semilla = System.nanoTime();
+        Collections.shuffle(cartassb, new Random(semilla));
+        cartas = new ArrayDeque<Carta> (cartassb);
+        
     }
-
+    
     public int getNumeroCartas() {
         return numeroCartas;
     }

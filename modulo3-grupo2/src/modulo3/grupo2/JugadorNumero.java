@@ -48,63 +48,114 @@ public class JugadorNumero implements JugadorUno{
         mostrarCartasMano();        
         Normal ultNormal = null;
         Especial ultEspecial = null;
+        boolean encontrado=false;
         
         if(ultimaCarta instanceof Normal){
             ultNormal = (Normal) ultimaCarta;
+            if(!encontrado){
+                for(int i=0; i<mano.size() && !encontrado; i++){ //mano es el arraylist donde estan las cartas de un jugador                
+                    if(mano.get(i) instanceof Normal){ // Si es carta es de tipo Normal
+                        Normal normal = (Normal) mano.get(i);
+
+                        if(normal.getNumero() == ultimaCarta.getNumero()){                       
+                            mano.remove(i);
+                            return normal;                                                
+                        }
+                    }
+                }         
+            }
+            if(!encontrado){
+                for(int i=0; i<mano.size() && !encontrado; i++){
+                    if(mano.get(i) instanceof Normal){ // Si es carta es de tipo Normal
+                        Normal normal = (Normal) mano.get(i);
+
+                        if(normal.getColor().equalsIgnoreCase(ultNormal.getColor()) ){
+                            mano.remove(i);
+                            return normal;   
+                        }
+                    }
+                }         
+            }
+            if(!encontrado){
+                for(int i=0; i<mano.size() && !encontrado; i++){
+                    if(mano.get(i) instanceof Especial){ // Si es carta es de tipo Especial
+                        Especial especial = (Especial) mano.get(i);
+                        if(!especial.getTipo().equalsIgnoreCase("Comodin roba 4") && !especial.getTipo().equalsIgnoreCase("Comodin de color")){
+                            if(especial.getColor().equalsIgnoreCase(ultNormal.getColor())/*|| especial.getColor().equalsIgnoreCase(ultNormal.getColor())*/){
+                                mano.remove(i);
+                                return especial;                     
+                            }                    
+                        }
+                    }
+                }            
+            }
+            if(!encontrado){
+                for(int i=0; i<mano.size() && !encontrado; i++){
+                    if(mano.get(i) instanceof Especial){ // Si es carta es de tipo Normal
+                        Especial especial = (Especial) mano.get(i);
+                        if(especial.getTipo().equalsIgnoreCase("Comodin roba 4")){
+                            mano.remove(i);
+                            return especial;                        
+                        }else if( especial.getTipo().equalsIgnoreCase("Comodin de color")){
+                            especial.setColor("azul");
+                            mano.remove(i);
+                            return especial;
+                        }
+                    }
+                }
+            }
         }else{
             ultEspecial = (Especial) ultimaCarta;
-        }
-        
-        boolean encontrado=false;
-        if(!encontrado){
-            for(int i=0; i<mano.size() && !encontrado; i++){ //mano es el arraylist donde estan las cartas de un jugador                
-                if(mano.get(i) instanceof Normal){ // Si es carta es de tipo Normal
-                    Normal normal = (Normal) mano.get(i);
-                    
-                    if(normal.getNumero() == ultimaCarta.getNumero()){                       
-                        mano.remove(i);
-                        return normal;                                                
-                    }
-                }
-            }         
-        }
-        if(!encontrado){
-            for(int i=0; i<mano.size() && !encontrado; i++){
-                if(mano.get(i) instanceof Normal){ // Si es carta es de tipo Normal
-                    Normal normal = (Normal) mano.get(i);
-                
-                    if(normal.getColor().equalsIgnoreCase(ultNormal.getColor())){
-                        mano.remove(i);
-                        return normal;   
-                    }
+           // if(ultEspecial.getTipo().equalsIgnoreCase("Comodin roba 4") || ultEspecial.getTipo().equalsIgnoreCase("Comodin de color")){
+                if(!encontrado){
+                    for(int i=0; i<mano.size() && !encontrado; i++){
+                        if(mano.get(i) instanceof Normal){ // Si es carta es de tipo Normal
+                            Normal normal = (Normal) mano.get(i);
 
-                }
-            }         
-        }
-        if(!encontrado){
-            for(int i=0; i<mano.size() && !encontrado; i++){
-                if(mano.get(i) instanceof Especial){ // Si es carta es de tipo Especial
-                    Especial especial = (Especial) mano.get(i);
-                    if(!especial.getTipo().equalsIgnoreCase("Comodin roba 4") && !especial.getTipo().equalsIgnoreCase("Comodin de color")){
-                        if(especial.getColor().equalsIgnoreCase(ultEspecial.getColor())){
-                            mano.remove(i);
-                            return especial;                     
-                        }                    
+                            if(normal.getColor().equalsIgnoreCase(ultEspecial.getColor()) ){
+                                mano.remove(i);
+                                return normal;   
+                            }
+
+
+                        }
                     }
-                }
-            }            
-        }
-        if(!encontrado){
-            for(int i=0; i<mano.size() && !encontrado; i++){
-                if(mano.get(i) instanceof Especial){ // Si es carta es de tipo Normal
-                    Especial especial = (Especial) mano.get(i);
-                    if(especial.getTipo().equalsIgnoreCase("Comodin roba 4") || especial.getTipo().equalsIgnoreCase("Comodin de color")){ // R4 es comodin roba cuatro y CC es comodin color
-                        mano.remove(i);
-                        return especial;                        
+             //   }
+            }
+            if(!encontrado){
+                for(int i=0; i<mano.size() && !encontrado; i++){
+                    if(mano.get(i) instanceof Especial){ // Si es carta es de tipo Especial
+                        Especial especial = (Especial) mano.get(i);
+                        if(!especial.getTipo().equalsIgnoreCase("Comodin roba 4") && !especial.getTipo().equalsIgnoreCase("Comodin de color")){
+                            if(especial.getColor().equalsIgnoreCase(ultEspecial.getColor())/*|| especial.getColor().equalsIgnoreCase(ultNormal.getColor())*/){
+                                mano.remove(i);
+                                return especial;                     
+                            }                    
+                        }
+                    }
+                }            
+            }
+            if(!encontrado){
+                for(int i=0; i<mano.size() && !encontrado; i++){
+                    if(mano.get(i) instanceof Especial){ // Si es carta es de tipo Normal
+                        Especial especial = (Especial) mano.get(i);
+                        if(especial.getTipo().equalsIgnoreCase("Comodin roba 4")){
+                            mano.remove(i);
+                            return especial;                        
+                        }else if( especial.getTipo().equalsIgnoreCase("Comodin de color")){
+                            especial.setColor("azul");
+                            mano.remove(i);
+                            return especial;
+                        }
                     }
                 }
             }
         }
+        
+        
+        
+        
+        
         return null;
         
     }

@@ -23,6 +23,8 @@ import org.jdom2.output.XMLOutputter;
 /**
  *
  * @author Carmen M. Morillo Arias, David Cruz Toral, Mustafa Abdoun Bouali
+ * 
+ * Clase que implementa el juego UNO
  */
 public class Uno implements Juego {
     
@@ -42,23 +44,42 @@ public class Uno implements Juego {
         direccion = 1; 
     }
 
+    /**
+     * Obtiene la dirección hacia la que se mueve el juego.
+     * 1 = derecha, 2 = izquierda
+     * @return dirección hacia la que se mueve el juego
+     */
     public int getDireccion() {
         return direccion;
     }
 
+    /**
+     * Establecer la dirección hacia la que se mueve el juego.
+     * @param direccion 1=derecha, 2=izquierda
+     */
     public void setDireccion(int direccion) {
         this.direccion = direccion;
     }
         
-
+    /**
+     * Obtener nombre del jugador a quien le toca jugar
+     * @return nombre del jugador a quien le toca jugar
+     */
     public String getTurno() {
         return turno;
     }
 
+    /**
+     * Establecer turno
+     * @param turno nombre del jugador a quien el toca jugar
+     */
     public void setTurno(String turno) {
         this.turno = turno;
     } 
     
+    /**
+     * Nombre del jugador que inicia la partida
+     */
     public void setPrimerTurno(){
         turno = jugadores.get(0).getNombre();
     }
@@ -94,6 +115,11 @@ public class Uno implements Juego {
         }
     }
     
+    /**
+     * Devuelve un jugador 
+     * @param nombre nombre del jugador cuyo objeto se quiere devolver
+     * @return objeto de JugadorUno
+     */
     public JugadorUno obtenerJugador(String nombre){
         for(int i=0;i<jugadores.size();i++){
             if(jugadores.get(i).getNombre().equalsIgnoreCase(nombre)){
@@ -103,6 +129,11 @@ public class Uno implements Juego {
         return null;
     }
     
+    /**
+     * Obtiene la posición para un jugador concreto
+     * @param nombre nombre del jugador
+     * @return posición del jugador en la lista de jugadores
+     */
     public int obtenerPosicionJugador(String nombre){
         for(int i=0;i<jugadores.size();i++){
             if(jugadores.get(i).getNombre().equalsIgnoreCase(nombre)){
@@ -134,6 +165,9 @@ public class Uno implements Juego {
         }
     }
     
+    /**
+     * Muestra la última carta jugada
+     */
     public void mostrarUltimaCarta(){
         System.out.println("La última carta es:");              
         
@@ -156,6 +190,9 @@ public class Uno implements Juego {
         return baraja.getCarta();
     }
 
+    /**
+     * Guarda la partida en formato XML
+     */
     @Override
     public void guardarJuego() {
          
@@ -175,11 +212,8 @@ public class Uno implements Juego {
 
             doc.getRootElement().addContent(jugador);
 
-
-            // new XMLOutputter().output(doc, System.out);
             XMLOutputter xmlOutput = new XMLOutputter();
 
-            // display nice nice
             xmlOutput.setFormat(Format.getPrettyFormat());
             xmlOutput.output(doc, new FileWriter("c:\\Users\\David\\Documents\\NetBeansProjects\\modulo3-grupo2\\file.xml"));
         }
@@ -258,18 +292,35 @@ public class Uno implements Juego {
         }
     }
     
+    /**
+     * Obtener ultima carta
+     * @return la ultima carta jugada
+     */
     public Carta getUltimaCarta(){
         return ultimaCarta;
     }
     
+    /**
+     * Determinar la ultima carta
+     * @param c ultima carta jugada
+     */
     public void setUltimaCarta(Carta c){
         ultimaCarta = c;
     }
         
+    /**
+     * Añade una carta a la baraja por el final
+     * @param c carta a añadir
+     */
     public void anadirCartaBaraja(Carta c){
         baraja.anadirCarta(c);
     }
     
+    /**
+     * Obtiene el jugador a la derecha de nombreJugador
+     * @param nombreJugador nombre del jugador
+     * @return jugador a la derecha de nombreJugador
+     */
     public String jugadorDerecha(String nombreJugador){
         int posicionJugadorActual = this.obtenerPosicionJugador(nombreJugador);
         
@@ -281,6 +332,11 @@ public class Uno implements Juego {
         }
     }
     
+    /**
+     * Obtiene el jugador a la izquierda de nombreJugador
+     * @param nombreJugador nombre del jugador
+     * @return jugador a la izquierda de nombreJugador
+     */
     public String jugadorIzquierda(String nombreJugador){
         int posicionJugadorActual = this.obtenerPosicionJugador(nombreJugador);
                 
@@ -294,6 +350,12 @@ public class Uno implements Juego {
     }
     
     //Devuelve -1 si no tiene que robar, o el numero de cartas que tiene que robar
+    /**
+     * Establece quien será el próximo jugador a jugar
+     * @param c última carta jugada
+     * @param nombreJugador nombre del jugador que tiene el turno
+     * @return -1 si el jugador tiene que robar carta, o el número de cartas que tiene que robar
+     */
     public int modificarTurno(Carta c, String nombreJugador){         
         if(c instanceof Especial){
             //Ver aquí que tipo de carta es y establecer el turno del siguiente
@@ -369,6 +431,9 @@ public class Uno implements Juego {
         return -1;        
     }
     
+    /**
+     * Muestra el ranking de puntuaciones de los jugadores
+     */
     public void mostrarRankingPuntuaciones(){
 
         for(int i=0;i<jugadores.size();i++){
@@ -377,6 +442,10 @@ public class Uno implements Juego {
         }
     }
 
+    /**
+     * Añade un jugador al juego
+     * @param jugador jugador a añadir
+     */
     @Override
     public void anadirJugador(JugadorBlackjack jugador) {}
 }

@@ -46,8 +46,7 @@ public class JugadorNumero implements JugadorUno{
      * @return carta que juega el jugador, null si quiere robar
      */
     @Override
-    public Carta realizarJugada(Carta ultimaCarta){
-        mostrarCartasMano();        
+    public Carta realizarJugada(Carta ultimaCarta){           
         Normal ultNormal = null;
         Especial ultEspecial = null;
         boolean encontrado=false;
@@ -107,8 +106,7 @@ public class JugadorNumero implements JugadorUno{
                 }
             }
         }else{
-            ultEspecial = (Especial) ultimaCarta;
-           // if(ultEspecial.getTipo().equalsIgnoreCase("Comodin roba 4") || ultEspecial.getTipo().equalsIgnoreCase("Comodin de color")){
+            ultEspecial = (Especial) ultimaCarta;           
                 if(!encontrado){
                     for(int i=0; i<mano.size() && !encontrado; i++){
                         if(mano.get(i) instanceof Normal){ // Si es carta es de tipo Normal
@@ -122,7 +120,6 @@ public class JugadorNumero implements JugadorUno{
 
                         }
                     }
-             //   }
             }
             if(!encontrado){
                 for(int i=0; i<mano.size() && !encontrado; i++){
@@ -152,12 +149,7 @@ public class JugadorNumero implements JugadorUno{
                     }
                 }
             }
-        }
-        
-        
-        
-        
-        
+        }        
         return null;
         
     }
@@ -174,8 +166,7 @@ public class JugadorNumero implements JugadorUno{
     }
 
     /**
-     * Obtener el nombre del jugador
-     * @param nombre del jugador
+     * Obtener el nombre del jugador     
      */
     @Override
     public String getNombre() {
@@ -213,27 +204,7 @@ public class JugadorNumero implements JugadorUno{
     @Override
     public boolean tieneCartas() {
         return mano.isEmpty();
-    } 
-    
-    /**
-     * Muestra las cartas que tiene el jugador en la jugada actual
-     */    
-    public void mostrarCartasMano(){
-        System.out.println("Las cartas del jugador "+nombre+" son:");
-        int j; //Mostramos las cartas desde el número 1 para utilizar el 0 como opción robar.
-        for(int i=0;i<mano.size();i++){  
-            j=i+1;
-            Carta c = mano.get(i);
-            if(c instanceof Normal){
-                Normal normal = (Normal) c;
-                System.out.println("   ("+j+"). "+normal.getNumero()+" "+normal.getColor());
-            }
-            else if(c instanceof Especial){
-                Especial especial = (Especial) c;
-                System.out.println("   ("+j+"). "+especial.getTipo()+" "+especial.getColor());
-            }
-        }
-    }
+    }     
 
     /**
      * Calcula la puntuación total del jugador

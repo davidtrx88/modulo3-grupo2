@@ -138,7 +138,7 @@ public class Baraja {
 
     /**
      * Asigna el numero de cartas
-     * @param numeroCartas
+     * @param tipo tipo de baraja
      */    
     public void setTipo(String tipo) {
         this.tipo = tipo;

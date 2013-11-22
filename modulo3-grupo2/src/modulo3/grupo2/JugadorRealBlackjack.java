@@ -82,7 +82,7 @@ public class JugadorRealBlackjack implements JugadorBlackjack{
 
     /**
      * Robar carta
-     * @param carta a añadir a la mano  
+     * @param c carta a añadir a la mano  
      */    
     @Override
     public void cogerCarta(Carta c) {

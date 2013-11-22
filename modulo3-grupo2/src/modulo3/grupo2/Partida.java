@@ -16,19 +16,19 @@ import modulo3.grupo2.interfaces.JugadorUno;
  */
 public class Partida {
     
-private static final String Bundle_Name = Partida.class.getPackage().getName()+".messages";
+private static final String Bundle_Name = Partida.class.getPackage().getName()+".MessagesBundle";
 private static ResourceBundle message = ResourceBundle.getBundle(Bundle_Name);
 
     public void menuPrincipal(){
         System.out.println();
         System.out.println("--------------------");
-        System.out.println("|    Bienvenido!!  |");
+        System.out.println(message.getString("bv"));
         System.out.println("--------------------");
         System.out.println();
-        System.out.println("Elige una opción...");
-        System.out.println("1. Jugar al UNO.");
-        System.out.println("2. Jugar al BlackJack.");
-        System.out.println("3. Salir.");       
+        System.out.println(message.getString("opc"));
+        System.out.println(message.getString("juno"));
+        System.out.println(message.getString("jbj"));
+        System.out.println(message.getString("salir"));       
     }
     
     
@@ -44,13 +44,13 @@ private static ResourceBundle message = ResourceBundle.getBundle(Bundle_Name);
         
         
         //Añadimos los jugadores
-        System.out.println("¿Cuántos jugadores?");
+        System.out.println(message.getString("nj"));
         Scanner sc = new Scanner(System.in);
         int njugadores = sc.nextInt();
         
         Scanner sc2 = new Scanner(System.in);
         for(int i=0;i<njugadores;i++){
-            System.out.println("Introduce el nombre del jugador "+i);
+            System.out.println(message.getString("nomj")+i);
             String nombre = sc2.nextLine();
             
             JugadorReal jr = new JugadorReal(nombre,0);            
@@ -93,7 +93,7 @@ private static ResourceBundle message = ResourceBundle.getBundle(Bundle_Name);
             juego.mostrarUltimaCarta();            
             
             if(robasiguiente != -1){ //Tiene que robar y pasar turno
-                System.out.println("El turno es del jugador: "+juego.getTurno()+" roba carta!");
+                System.out.println(message.getString("tj")+juego.getTurno()+message.getString("rb"));
                 JugadorUno jugadorActual = juego.obtenerJugador(juego.getTurno());
                 
                 if(robasiguiente == 2){
@@ -106,7 +106,7 @@ private static ResourceBundle message = ResourceBundle.getBundle(Bundle_Name);
                     else{
                         juego.setTurno(juego.jugadorIzquierda(jugadorActual.getNombre()));
                     }
-                    System.out.println("Has robado 2 cartas!");
+                    System.out.println(message.getString("cr2"));
                     robasiguiente = -1;
                     jugadorAnteriorRobo = true;
                 }
@@ -121,13 +121,13 @@ private static ResourceBundle message = ResourceBundle.getBundle(Bundle_Name);
                     else{
                         juego.setTurno(juego.jugadorIzquierda(jugadorActual.getNombre()));
                     }
-                    System.out.println("Has robado 4 cartas!");
+                    System.out.println(message.getString("cr4"));
                     robasiguiente = -1;
                     jugadorAnteriorRobo = true;
                 }
             }
             else {
-                System.out.println("El turno es del jugador: "+juego.getTurno());
+                System.out.println(message.getString("tj")+juego.getTurno());
                 JugadorUno jugadorActual = juego.obtenerJugador(juego.getTurno());
                 
                 
@@ -144,7 +144,7 @@ private static ResourceBundle message = ResourceBundle.getBundle(Bundle_Name);
                             juego.validarJugada(c);
                             ultimaCartaValida = true;
                         } catch (ExcepcionJugadaNoValida ex) {
-                            System.out.println("La carta jugada no es válida!!");
+                            System.out.println(message.getString("nv"));
                             jugadorActual.cogerCarta(c);
                             ultimaCartaValida = false;
                         }
@@ -154,7 +154,7 @@ private static ResourceBundle message = ResourceBundle.getBundle(Bundle_Name);
                        if(c instanceof Especial){
                            Especial cespecial = (Especial) c;
                            if(cespecial.getTipo().equalsIgnoreCase("Comodin de color") ||cespecial.getTipo().equalsIgnoreCase("Comodin roba 4")){
-                               System.out.println("Elige un color...");
+                               System.out.println(message.getString("ec"));
                                String color = sc2.nextLine();
                                cespecial.setColor(color);                          
                            }
@@ -179,7 +179,7 @@ private static ResourceBundle message = ResourceBundle.getBundle(Bundle_Name);
                             juego.validarJugada(c);
                             ultimaCartaValida = true;
                         } catch (ExcepcionJugadaNoValida ex) {
-                            System.out.println("La carta jugada no es válida!!");
+                            System.out.println(message.getString("nv"));
                             jugadorActual.cogerCarta(c);
                             ultimaCartaValida = false;
                         }
@@ -205,7 +205,7 @@ private static ResourceBundle message = ResourceBundle.getBundle(Bundle_Name);
             }
         }        
         juego.mostrarRankingPuntuaciones();
-        System.out.println("¿Quiere guardar el resultado? ");
+        System.out.println(message.getString("save"));
         Scanner sg = new Scanner(System.in);
         String respuesta = sg.nextLine();
         if (respuesta.equalsIgnoreCase("si")||respuesta.equalsIgnoreCase("yes")){
@@ -225,7 +225,7 @@ private static ResourceBundle message = ResourceBundle.getBundle(Bundle_Name);
         
         
         Scanner sc = new Scanner(System.in);
-        System.out.println("Introduce el nombre del jugador ");
+        System.out.println(message.getString("nomj"));
         String nombre = sc.nextLine();
 
         JugadorRealBlackjack jb = new JugadorRealBlackjack(nombre);            
@@ -296,7 +296,7 @@ private static ResourceBundle message = ResourceBundle.getBundle(Bundle_Name);
         }        
         
         juego.calcularGanador();
-        System.out.println("¿Quiere guardar el resultado? ");
+        System.out.println(message.getString("save"));
         Scanner sg = new Scanner(System.in);
         String respuesta = sg.nextLine();
         if (respuesta.equalsIgnoreCase("si")||respuesta.equalsIgnoreCase("yes")){

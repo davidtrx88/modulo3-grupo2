@@ -13,7 +13,7 @@ import modulo3.grupo2.interfaces.JugadorBlackjack;
  *
  * @author Carmen M. Morillo Arias, David Cruz Toral, Mustafa Abdoun Bouali
  */
-public class Repartidor implements JugadorBlackjack{
+public class RepartidorAgresivo implements JugadorBlackjack{
     private String nombre;
     private int puntuacion;    
     private ArrayList<Carta> mano;
@@ -21,8 +21,8 @@ public class Repartidor implements JugadorBlackjack{
     /**
      * Constructor
      */
-    public Repartidor(){
-        nombre ="Repartidor";
+    public RepartidorAgresivo(){
+        nombre ="Repartidor agresivo";
         puntuacion = 0;
         mano = new ArrayList<Carta>();
     }
@@ -60,7 +60,7 @@ public class Repartidor implements JugadorBlackjack{
      */
     @Override
     public boolean realizarJugada() {                
-        if(puntuacion<=16) return true;
+        if(puntuacion<=18) return true;
         else return false;
     }
     
@@ -72,7 +72,7 @@ public class Repartidor implements JugadorBlackjack{
     public void mostrarCartas(){
         for(int i=0;i<mano.size();i++){
             Inglesa cinglesa = (Inglesa) mano.get(i);
-            System.out.println("   "+cinglesa.getNumero()+" "+cinglesa.getPalo());
+            System.out.println(cinglesa.getNumero()+" "+cinglesa.getPalo());
         }
     }    
 }

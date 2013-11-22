@@ -112,7 +112,7 @@ public class JugadorReal implements JugadorUno{
             }
             else if(c instanceof Especial){
                 Especial especial = (Especial) c;
-                System.out.println("    ("+j+"). "+especial.getTipo()+" "+especial.getColor());
+                System.out.println("   ("+j+"). "+especial.getTipo()+" "+especial.getColor());
             }
         }
     }

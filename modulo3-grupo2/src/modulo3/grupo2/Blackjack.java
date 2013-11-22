@@ -96,35 +96,68 @@ public class Blackjack implements Juego{
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-//    public void calcularGanador(){
-//        int puntuacionjb = jb.getPuntuacion();
-//        int puntuacionjr = jr.getPuntuacion();
-//                
-//        if(puntuacionjb != puntuacionjr){
-//            if(puntuacionjb == 21){
-//                System.out.println("Enhorabuena! "+jb.getNombre()+" has ganado!");
-//            }
-//            else if(puntuacionjr == 21){
-//                System.out.println("Lo siento, "+jr.getNombre()+" ha ganado :(");
-//            }
-//            else if(puntuacionjr < 21 && puntuacionjb < 21){ //Si la puntuación de ambos <21 gana el que más se acerque
-//                if(puntuacionjr > puntuacionjb){
-//                    System.out.println("Lo siento, "+jr.getNombre()+" ha ganado :(");
-//                }
-//                else{
-//                    System.out.println("Enhorabuena! "+jb.getNombre()+" has ganado!");
-//                }
-//            }else if(puntuacionjr > 21 && puntuacionjb > 21){ //Si la puntuacion de ambos >21 gana el que más se acerque
-//                if(puntuacionjr < puntuacionjb){
-//                    System.out.println("Lo siento, "+jr.getNombre()+" ha ganado :(");
-//                }
-//                else{
-//                    System.out.println("Enhorabuena! "+jb.getNombre()+" has ganado!");
-//                }                
-//            }
-//        }
-//        else{ //El repartidor y el jugador tienen la misma puntuación
-//            System.out.println("Lo siento, "+jr.getNombre()+" ha ganado :(");
-//        }
-//    }
+    public void calcularGanador(){
+        int puntuacionjb = jugadores.get(0).getPuntuacion();
+        int puntuacionjr = jugadores.get(1).getPuntuacion();   
+        
+        if(jugadores.get(1) instanceof Repartidor){
+            Repartidor r = (Repartidor) jugadores.get(1);
+            System.out.println("Las cartas del jugador "+r.getNombre()+" son:");
+            r.mostrarCartas();            
+        }
+        else{
+            RepartidorAgresivo r = (RepartidorAgresivo) jugadores.get(1);
+            System.out.println("Las cartas del jugador "+r.getNombre()+" son:");
+            r.mostrarCartas();                    
+        }
+        
+        if(puntuacionjb != puntuacionjr){
+            if(puntuacionjb == 21){
+                System.out.println("Enhorabuena! "+jugadores.get(0).getNombre()+" has ganado!");
+            }
+            else if(puntuacionjr == 21){
+                System.out.println("Lo siento, "+jugadores.get(1).getNombre()+" ha ganado :(");
+            }
+            else if(puntuacionjr < 21 && puntuacionjb < 21){ //Si la puntuación de ambos <21 gana el que más se acerque
+                if(puntuacionjr > puntuacionjb){
+                    System.out.println("Lo siento, "+jugadores.get(1).getNombre()+" ha ganado :(");
+                }
+                else{
+                    System.out.println("Enhorabuena! "+jugadores.get(0).getNombre()+" has ganado!");
+                }
+            }else if(puntuacionjr > 21 && puntuacionjb > 21){ //Si la puntuacion de ambos >21 gana el que más se acerque
+                if(puntuacionjr < puntuacionjb){
+                    System.out.println("Lo siento, "+jugadores.get(1).getNombre()+" ha ganado :(");
+                }
+                else{
+                    System.out.println("Enhorabuena! "+jugadores.get(0).getNombre()+" has ganado!");
+                }                
+            }
+            else if(puntuacionjr > 21 && puntuacionjb < 21){
+                System.out.println("Enhorabuena! "+jugadores.get(0).getNombre()+" has ganado!");
+            }
+            else if(puntuacionjr < 21 && puntuacionjb > 21){
+                System.out.println("Lo siento, "+jugadores.get(1).getNombre()+" ha ganado :(");
+            }
+        }
+        else{ //El repartidor y el jugador tienen la misma puntuación
+            System.out.println("Lo siento, "+jugadores.get(1).getNombre()+" ha ganado :(");
+        }
+    }
+    
+    public void escogerRepartidor(){
+        int numjugador = (int) (Math.random()*2+1);
+        if(numjugador == 1){
+            Repartidor jr = new Repartidor();        
+            anadirJugador(jr);              
+        }
+        else{
+            RepartidorAgresivo jr = new RepartidorAgresivo();        
+            anadirJugador(jr);                    
+        }    
+    }
+    
+    public JugadorBlackjack obtenerJugadorRepartidor(){
+        return jugadores.get(1);
+    }
 }

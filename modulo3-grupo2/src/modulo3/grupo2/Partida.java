@@ -16,16 +16,28 @@ public class Partida {
         
     
     public void menuPrincipal(){
+        System.out.println();
+        System.out.println("--------------------");
+        System.out.println("|    Bienvenido!!  |");
+        System.out.println("--------------------");
+        System.out.println();
         System.out.println("Elige una opción...");
         System.out.println("1. Jugar al UNO.");
         System.out.println("2. Jugar al BlackJack.");
-        System.out.println("3. Salir.");
+        System.out.println("3. Salir.");       
     }
     
     
     public void juegaUno(){
         
         Uno juego = new Uno();        
+
+        System.out.println();
+        System.out.println("--------------------");
+        System.out.println("|       UNO        |");
+        System.out.println("--------------------");
+        System.out.println();
+        
         
         //Añadimos los jugadores
         System.out.println("¿Cuántos jugadores?");
@@ -193,48 +205,86 @@ public class Partida {
     public void juegaBlackJack(){
         
         Blackjack juego = new Blackjack();
+
+        System.out.println();
+        System.out.println("--------------------");
+        System.out.println("|      BLACKJACK    |");
+        System.out.println("--------------------");
+        System.out.println();
+        
         
         Scanner sc = new Scanner(System.in);
         System.out.println("Introduce el nombre del jugador ");
         String nombre = sc.nextLine();
 
         JugadorRealBlackjack jb = new JugadorRealBlackjack(nombre);            
-        juego.anadirJugador(jb);        
+        juego.anadirJugador(jb);                        
         
-        //Poner aquí algo para que elija aleatoriamente al jugador repartidor
-        
-        Repartidor jr = new Repartidor();        
-        juego.anadirJugador(jr);
+        juego.escogerRepartidor();
         
         juego.repartir();
-        jr.mostrarPrimeraCarta();
         
-        boolean jbtermina = false;
-        
-        while(!jbtermina){
+        if(juego.obtenerJugadorRepartidor() instanceof Repartidor){
+            Repartidor jr = (Repartidor) juego.obtenerJugadorRepartidor();
+            jr.mostrarPrimeraCarta();
+
+            boolean jbtermina = false;
+
+            while(!jbtermina){
+
+                if(jb.realizarJugada()){
+                    jb.cogerCarta(juego.darCarta());                
+                }
+                else{                
+                    jbtermina = true;
+                }
+            }
+
+            boolean jrtermina = false;
+
+            while(!jrtermina){
+
+                if(jr.realizarJugada()){
+                    jr.cogerCarta(juego.darCarta());
+                    jr.getPuntuacion();
+                }
+                else{
+                    jrtermina = true;
+                }
+            }
             
-            if(jb.realizarJugada()){
-                jb.cogerCarta(juego.darCarta());                
-            }
-            else{                
-                jbtermina = true;
-            }
         }
-        
-        boolean jrtermina = false;
-        
-        while(!jrtermina){
-            
-            if(jr.realizarJugada()){
-                jr.cogerCarta(juego.darCarta());
-                jr.getPuntuacion();
+        else{
+            RepartidorAgresivo jr = (RepartidorAgresivo) juego.obtenerJugadorRepartidor();            
+            jr.mostrarPrimeraCarta();
+
+            boolean jbtermina = false;
+
+            while(!jbtermina){
+
+                if(jb.realizarJugada()){
+                    jb.cogerCarta(juego.darCarta());                
+                }
+                else{                
+                    jbtermina = true;
+                }
             }
-            else{
-                jrtermina = true;
-            }
-        }
+
+            boolean jrtermina = false;
+
+            while(!jrtermina){
+
+                if(jr.realizarJugada()){
+                    jr.cogerCarta(juego.darCarta());
+                    jr.getPuntuacion();
+                }
+                else{
+                    jrtermina = true;
+                }
+            }            
+        }        
         
-//        juego.calcularGanador();
+        juego.calcularGanador();
     }
     
 }

@@ -9,7 +9,9 @@ import java.util.Scanner;
 
 /**
  *
- * @author carmen
+ * @author Carmen M. Morillo Arias, David Cruz Toral, Mustafa Abdoun Bouali
+ * 
+ * Programa principal que lanza la ejecución de los juegos 
  */
 public class Modulo3Grupo2 {
 

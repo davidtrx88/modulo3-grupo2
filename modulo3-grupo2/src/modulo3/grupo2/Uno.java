@@ -13,14 +13,12 @@ import modulo3.grupo2.interfaces.JugadorUno;
 import modulo3.grupo2.interfaces.Juego;
 import modulo3.grupo2.excepciones.ExcepcionJugadaNoValida;
 import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+
 
 /**
  *
@@ -156,11 +154,6 @@ public class Uno implements Juego {
     @Override
     public Carta darCarta() {
         return baraja.getCarta();
-    }
-
-    @Override
-    public void terminarJuego() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -377,9 +370,8 @@ public class Uno implements Juego {
     }
     
     public void mostrarRankingPuntuaciones(){
-//        Map<String, Integer> ranking = new HashMap();
+
         for(int i=0;i<jugadores.size();i++){
-//            ranking.put(jugadores.get(i).getNombre(),jugadores.get(i).calcularPuntuacion());
             System.out.println("Jugador: "+jugadores.get(i).getNombre()+" "+jugadores.get(i).calcularPuntuacion()+" puntos.");
             
         }

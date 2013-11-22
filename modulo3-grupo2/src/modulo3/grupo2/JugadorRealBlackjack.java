@@ -11,7 +11,9 @@ import modulo3.grupo2.interfaces.JugadorBlackjack;
 
 /**
  *
- * @author carmen
+ * @author Carmen M. Morillo Arias, David Cruz Toral, Mustafa Abdoun Bouali
+ * 
+ * Implementación del jugador real para Blackjack
  */
 public class JugadorRealBlackjack implements JugadorBlackjack{
     
@@ -19,6 +21,10 @@ public class JugadorRealBlackjack implements JugadorBlackjack{
     private int puntuacion;
     private List<Carta> mano;
 
+    /**
+     * Constructor
+     * @param nombre nombre del jugador
+     */
     public JugadorRealBlackjack(String nombre) {
         this.nombre = nombre;
         puntuacion = 0;
@@ -64,6 +70,9 @@ public class JugadorRealBlackjack implements JugadorBlackjack{
         return puntuacion;
     }
     
+    /**
+     * Muestra las cartas que tiene el jugador en la jugada actual
+     */    
     public void mostrarCartas(){
         for(int i=0;i<mano.size();i++){
             Inglesa cinglesa = (Inglesa) mano.get(i);
@@ -71,11 +80,19 @@ public class JugadorRealBlackjack implements JugadorBlackjack{
         }
     }
 
+    /**
+     * Robar carta
+     * @param carta a añadir a la mano  
+     */    
     @Override
     public void cogerCarta(Carta c) {
         mano.add(c);
     }
 
+    /**
+     * Obtener el nombre del jugador
+     * @return nombre nombre del jugador
+     */    
     @Override
     public String getNombre() {
         return nombre;

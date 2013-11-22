@@ -21,6 +21,8 @@ import org.jdom2.output.XMLOutputter;
 /**
  *
  * @author Carmen M. Morillo Arias, David Cruz Toral, Mustafa Abdoun Bouali
+ * 
+ * Formalizacion de la clase Blackjack
  */
 public class Blackjack implements Juego{
     
@@ -28,7 +30,7 @@ public class Blackjack implements Juego{
     private List<JugadorBlackjack> jugadores;
     
     /**
-     * JugadorUno
+     * Constructor de la clase Blackjack
      */
     public Blackjack() {
         jugadores = new LinkedList<JugadorBlackjack>();
@@ -88,11 +90,10 @@ public class Blackjack implements Juego{
         return baraja.getCarta();
     }
 
-    @Override
-    public void terminarJuego() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    /**
+     * guarda la partida
 
+     */
     @Override
     public void guardarJuego() {
          
@@ -100,7 +101,7 @@ public class Blackjack implements Juego{
  
         Element juego = new Element("Juego");
         Document doc = new Document(juego);
-        doc.setRootElement(juego);
+//        doc.setRootElement(juego);
         
         for(int i =0; i<jugadores.size();i++){
             Element jugador = new Element("Jugador");
@@ -118,7 +119,7 @@ public class Blackjack implements Juego{
 
             // display nice nice
             xmlOutput.setFormat(Format.getPrettyFormat());
-            xmlOutput.output(doc, new FileWriter("c:\\Users\\David\\Documents\\NetBeansProjects\\modulo3-grupo2\\file.xml"));
+            xmlOutput.output(doc, new FileWriter("file.xml"));
         }
         System.out.println("File Saved!");
       } catch (IOException io) {
@@ -126,11 +127,18 @@ public class Blackjack implements Juego{
       }
     }
 
+    /**
+     * Método sin implementación para esta clase
+     * @param jugador JugadorUno
+     */
     @Override
     public void anadirJugador(JugadorUno jugador) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
+    /**
+     * Calcula quién fué el ganador del juego y lo muestra por pantalla.
+     */
     public void calcularGanador(){
         int puntuacionjb = jugadores.get(0).getPuntuacion();
         int puntuacionjr = jugadores.get(1).getPuntuacion();   
@@ -180,6 +188,9 @@ public class Blackjack implements Juego{
         }
     }
     
+    /**
+     * Método aleatorio que escoge un jugador de uno de los dos tipos de repartidor
+     */
     public void escogerRepartidor(){
         int numjugador = (int) (Math.random()*2+1);
         if(numjugador == 1){
@@ -192,6 +203,10 @@ public class Blackjack implements Juego{
         }    
     }
     
+    /**
+     * Devuelve el jugador repartidor
+     * @return jugador repartidor
+     */
     public JugadorBlackjack obtenerJugadorRepartidor(){
         return jugadores.get(1);
     }

@@ -13,6 +13,8 @@ import modulo3.grupo2.interfaces.JugadorUno;
 /**
  *
  * @author Carmen M. Morillo Arias, David Cruz Toral, Mustafa Abdoun Bouali
+ * 
+ * Implementación del jugador real para el juego UNO
  */
 public class JugadorReal implements JugadorUno{
     private String nombre;
@@ -20,7 +22,7 @@ public class JugadorReal implements JugadorUno{
     private ArrayList<Carta> mano;    
     
     /**
-     *
+     * Constructor por defecto
      */
     public JugadorReal(){
         nombre ="";
@@ -29,16 +31,21 @@ public class JugadorReal implements JugadorUno{
     }
     
     /**
-     *
-     * @param n
-     * @param p
+     * Constructor para JugadorCartaEspecial
+     * @param nombre nombre del jugador
+     * @param puntuacion puntuacion del jugador
      */
-    public JugadorReal(String n, int p){
-        this.nombre = n;
-        this.puntuacion = p;
+    public JugadorReal(String nombre, int puntuacion){
+        this.nombre = nombre;
+        this.puntuacion = puntuacion;
         mano = new ArrayList<Carta>();
     }
 
+    /**
+     * Método para realizar una jugada
+     * @param ultimaCarta ultima carta que se jugó en la partida
+     * @return carta que juega el jugador, null si quiere robar
+     */    
     @Override
     public Carta realizarJugada(Carta ultimaCarta) {             
         Scanner sc = new Scanner(System.in);
@@ -67,39 +74,50 @@ public class JugadorReal implements JugadorUno{
         return null;
     }
 
+    /**
+     * Robar carta
+     * @param carta a añadir a la mano  
+     */    
     @Override
     public void cogerCarta(Carta carta) {
          mano.add(carta);
     }
 
     /**
-     * @return the nombre
+     * Obtener el nombre del jugador
+     * @return nombre nombre del jugador
      */
     public String getNombre() {
         return nombre;
     }
 
     /**
-     * @param nombre the nombre to set
+     * Establecer el nombre del jugador
+     * @param nombre nombre del jugador
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
     /**
-     * @return the puntuacion
+     * Obtener la puntuación del jugador
+     * @return puntuacion 
      */
     public int getPuntuacion() {
         return puntuacion;
     }
 
     /**
-     * @param puntuacion the puntuacion to set
+     * Establecer la puntuacion del jugador
+     * @param puntuacion puntuacion del jugador
      */
     public void setPuntuacion(int puntuacion) {
         this.puntuacion = puntuacion;
     }
 
+    /**
+     * Muestra las cartas que tiene el jugador en la jugada actual
+     */    
     public void mostrarCartasMano(){
         System.out.println("Las cartas del jugador "+nombre+" son:");
         int j; //Mostramos las cartas desde el número 1 para utilizar el 0 como opción robar.
@@ -116,16 +134,21 @@ public class JugadorReal implements JugadorUno{
             }
         }
     }
-    
-    public boolean comprobarGanador(){
-        return mano.isEmpty();
-    }
+        
 
+    /**
+     * Comprobar si el jugador tiene cartas
+     * @return true si no tiene, false si tiene
+     */    
     @Override
     public boolean tieneCartas() {        
         return mano.isEmpty();
     }
 
+    /**
+     * Calcula la puntuación total del jugador
+     * @return puntuación total del jugador
+     */    
     @Override
     public int calcularPuntuacion() {
         int puntos = 0;

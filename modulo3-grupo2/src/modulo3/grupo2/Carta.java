@@ -7,19 +7,23 @@ package modulo3.grupo2;
 /**
  *
  * @author Carmen M. Morillo Arias, David Cruz Toral, Mustafa Abdoun Bouali
+ * 
+ * Implementacion de la clase carta
  */
 public class Carta {
            
     private int numero;
     private int valor;
 
-    
+    /**
+     * Constructor por defecto
+     */
     public Carta(){}
     
-    /**constructor de la clase carta
-     *
-     * @param valor
-     * @param numero
+    /**
+     * Constructor de la clase carta
+     * @param valor valor de la carta en el juego
+     * @param numero numero de la carta
      */
     public Carta(int valor, int numero)
     {
@@ -29,28 +33,32 @@ public class Carta {
     } 
     
     /**
-     * @return the numero
+     * Devuelve el número de la carta
+     * @return numero de la carta
      */
     public int getNumero() {
         return numero;
     }
 
     /**
-     * @param numero the numero to set
+     * Establecer el valor del número de la carta
+     * @param numero numero de la carta
      */
     public void setNumero(int numero) {
         this.numero = numero;
     }
 
     /**
-     * @return the valor
+     * Obtiene el valor de la carta
+     * @return valor valor de la carta en el juego
      */
     public int getValor() {
         return valor;
     }
 
     /**
-     * @param valor the valor to set
+     * Establece el valor de la carta en el juego
+     * @param valor de la carta en el juego
      */
     public void setValor(int valor) {
         this.valor = valor;

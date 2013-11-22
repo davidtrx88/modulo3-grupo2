@@ -21,9 +21,7 @@ public interface Juego {
     
     public void repartir();
     
-    public Carta darCarta();
-    
-    public void terminarJuego();
+    public Carta darCarta();    
     
     public void guardarJuego();
               

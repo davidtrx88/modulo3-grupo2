@@ -14,6 +14,8 @@ import java.util.Random;
 /**
  *
  * @author Carmen M. Morillo Arias, David Cruz Toral, Mustafa Abdoun Bouali
+ * 
+ * Clase que implementa una baraja de los tipos Uno o Blackjack
  */
 public class Baraja {
     
@@ -88,18 +90,14 @@ public class Baraja {
             palos.add("Picas");
             palos.add("Corazones");
             palos.add("Treboles");
-            palos.add("Rombo");
+            palos.add("Rombos");
 
             for(String palo : palos){
-//                Inglesa carta = new Inglesa("A",11,palo); 
                 Inglesa carta = new Inglesa(1,11,palo); 
                 for(int i=2;i<11;i++){
                     Inglesa carta2 = new Inglesa(i,i,palo); 
                     cartassb.add(carta2);
                 }
-//                Inglesa cartaj = new Inglesa("J",10,palo);  
-//                Inglesa cartaq = new Inglesa("Q",10,palo);
-//                Inglesa cartak = new Inglesa("K",10,palo);  
                 Inglesa cartaj = new Inglesa(11,10,palo);  
                 Inglesa cartaq = new Inglesa(12,10,palo);
                 Inglesa cartak = new Inglesa(13,10,palo);  
@@ -117,18 +115,31 @@ public class Baraja {
         
     }
     
+    /**
+     * Devuelve en número de cartas de la baraja
+     * @return numero de cartas de la baraja
+     */    
     public int getNumeroCartas() {
         return numeroCartas;
     }
 
+    /**
+     * Devuelve el tipo de la baraja
+     * @return tipo de baraja
+     */    
     public String getTipo() {
         return tipo;
     }
 
+    
     public void setNumeroCartas(int numeroCartas) {
         this.numeroCartas = numeroCartas;
     }
 
+    /**
+     * Asigna el numero de cartas
+     * @param numeroCartas
+     */    
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }

@@ -12,6 +12,8 @@ import modulo3.grupo2.interfaces.JugadorBlackjack;
 /**
  *
  * @author Carmen M. Morillo Arias, David Cruz Toral, Mustafa Abdoun Bouali
+ * 
+ * Clase Repartidor que implementa un repartidor con estrategia hasta 16 puntos.
  */
 public class Repartidor implements JugadorBlackjack{
     private String nombre;
@@ -27,14 +29,18 @@ public class Repartidor implements JugadorBlackjack{
         mano = new ArrayList<Carta>();
     }
     
-
+    /**
+     * Robar carta
+     * @param carta a añadir a la mano  
+     */
     @Override
     public void cogerCarta(Carta carta) {
         mano.add(carta);
     }
 
     /**
-     * @return nombre del jugador
+     * Obtener el nombre del jugador
+     * @return nombre nombre del jugador
      */
     @Override
     public String getNombre() {
@@ -64,11 +70,17 @@ public class Repartidor implements JugadorBlackjack{
         else return false;
     }
     
+    /**
+     * Muestra la primera carta del repartidor
+     */
     public void mostrarPrimeraCarta(){
         Inglesa cinglesa = (Inglesa) mano.get(0);
         System.out.println("Carta del repartidor: "+cinglesa.getNumero()+" "+cinglesa.getPalo());
     }
     
+    /**
+     * Muestra las cartas que tiene el jugador en la jugada actual
+     */     
     public void mostrarCartas(){
         for(int i=0;i<mano.size();i++){
             Inglesa cinglesa = (Inglesa) mano.get(i);

@@ -37,14 +37,12 @@ public class Modulo3Grupo2 {
             }
             else if(opcion == 2){
                 p.juegaBlackJack();
-            }
-            else if(opcion==3){
-                
+            
             }else{
                 System.out.println("Hasta luego!");
             }        
             
            
-        }while(opcion != 4);
+        }while(opcion != 3);
     }
 }

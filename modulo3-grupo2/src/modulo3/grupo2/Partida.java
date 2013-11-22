@@ -28,8 +28,7 @@ private static ResourceBundle message = ResourceBundle.getBundle(Bundle_Name);
         System.out.println("Elige una opción...");
         System.out.println("1. Jugar al UNO.");
         System.out.println("2. Jugar al BlackJack.");
-        System.out.println("3. Guardar partida. ");
-        System.out.println("4. Salir.");       
+        System.out.println("3. Salir.");       
     }
     
     
@@ -206,6 +205,12 @@ private static ResourceBundle message = ResourceBundle.getBundle(Bundle_Name);
             }
         }        
         juego.mostrarRankingPuntuaciones();
+        System.out.println("¿Quiere guardar el resultado? ");
+        Scanner sg = new Scanner(System.in);
+        String respuesta = sg.nextLine();
+        if (respuesta.equalsIgnoreCase("si")||respuesta.equalsIgnoreCase("yes")){
+            juego.guardarJuego();
+        }
     }
     
     public void juegaBlackJack(){
@@ -291,6 +296,12 @@ private static ResourceBundle message = ResourceBundle.getBundle(Bundle_Name);
         }        
         
         juego.calcularGanador();
+        System.out.println("¿Quiere guardar el resultado? ");
+        Scanner sg = new Scanner(System.in);
+        String respuesta = sg.nextLine();
+        if (respuesta.equalsIgnoreCase("si")||respuesta.equalsIgnoreCase("yes")){
+            juego.guardarJuego();
+        }
     }
     //metodo para cambiar la localizacion
     public static void setLocale(Locale locale){

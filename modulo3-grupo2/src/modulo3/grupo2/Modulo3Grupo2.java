@@ -6,6 +6,7 @@ package modulo3.grupo2;
 
 import java.util.Scanner;
 
+
 /**
  *
  * @author carmen
@@ -37,9 +38,13 @@ public class Modulo3Grupo2 {
             else if(opcion == 2){
                 p.juegaBlackJack();
             }
-            else{
+            else if(opcion==3){
+                
+            }else{
                 System.out.println("Hasta luego!");
             }        
-        }while(opcion != 3);
+            
+           
+        }while(opcion != 4);
     }
 }

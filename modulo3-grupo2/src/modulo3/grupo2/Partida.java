@@ -4,6 +4,8 @@
  */
 package modulo3.grupo2;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 import modulo3.grupo2.excepciones.ExcepcionJugadaNoValida;
 import modulo3.grupo2.interfaces.JugadorUno;
@@ -13,8 +15,10 @@ import modulo3.grupo2.interfaces.JugadorUno;
  * @author Carmen M. Morillo Arias, David Cruz Toral, Mustafa Abdoun Bouali
  */
 public class Partida {
-        
     
+private static final String Bundle_Name = Partida.class.getPackage().getName()+".messages";
+private static ResourceBundle message = ResourceBundle.getBundle(Bundle_Name);
+
     public void menuPrincipal(){
         System.out.println();
         System.out.println("--------------------");
@@ -24,7 +28,8 @@ public class Partida {
         System.out.println("Elige una opción...");
         System.out.println("1. Jugar al UNO.");
         System.out.println("2. Jugar al BlackJack.");
-        System.out.println("3. Salir.");       
+        System.out.println("3. Guardar partida. ");
+        System.out.println("4. Salir.");       
     }
     
     
@@ -55,12 +60,12 @@ public class Partida {
         
         //Si sólo hay un jugador, añadimos otros con distintas estrategias        
         if(njugadores == 1){            
-            JugadorNumero jugador1 = new JugadorNumero("Jugador1",0);
-            juego.anadirJugador(jugador1);
-//            JugadorColor jugador2 = new JugadorColor("Jugador2",0);
-//            juego.anadirJugador(jugador2);
-//            JugadorCartaEspecial jugador3 = new JugadorCartaEspecial("Jugador3",0);
-//            juego.anadirJugador(jugador3);
+           // JugadorNumero jugador1 = new JugadorNumero("Jugador1",0);
+           //juego.anadirJugador(jugador1);
+            //JugadorColor jugador2 = new JugadorColor("Jugador2",0);
+            //juego.anadirJugador(jugador2);
+            JugadorCartaEspecial jugador3 = new JugadorCartaEspecial("Jugador3",0);
+            juego.anadirJugador(jugador3);
         }
         
         //Creamos la baraja, repartimos, mostramos la primera carta bocarriba, mostramos a cada
@@ -164,6 +169,7 @@ public class Partida {
                     }                                
                 } 
                 else{
+                    System.out.println(juego.getUltimaCarta().getValor());
                     Carta c = jugadorActual.realizarJugada(juego.getUltimaCarta());
                     if(c == null){ //Quiere robar
                         jugadorActual.cogerCarta(juego.darCarta());
@@ -285,6 +291,15 @@ public class Partida {
         }        
         
         juego.calcularGanador();
+    }
+    //metodo para cambiar la localizacion
+    public static void setLocale(Locale locale){
+        message = ResourceBundle.getBundle(Bundle_Name,locale);
+    }
+    
+    //metodo para consultar un termino
+    public static String getString(String key){
+        return message.getString(key);
     }
     
 }

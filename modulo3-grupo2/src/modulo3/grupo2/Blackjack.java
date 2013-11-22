@@ -4,11 +4,18 @@
  */
 package modulo3.grupo2;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedList;
 import modulo3.grupo2.interfaces.Juego;
 import java.util.List;
 import modulo3.grupo2.interfaces.JugadorBlackjack;
 import modulo3.grupo2.interfaces.JugadorUno;
+import org.jdom2.Attribute;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 
 /**
@@ -88,7 +95,35 @@ public class Blackjack implements Juego{
 
     @Override
     public void guardarJuego() {
-        throw new UnsupportedOperationException("Not supported yet.");
+         
+        try {
+ 
+        Element juego = new Element("Juego");
+        Document doc = new Document(juego);
+        doc.setRootElement(juego);
+        
+        for(int i =0; i<jugadores.size();i++){
+            Element jugador = new Element("Jugador");
+          
+            jugador.setAttribute(new Attribute("id", "0"+i));
+            jugador.addContent(new Element("Nombre").setText(jugadores.get(i).getNombre()));
+            jugador.addContent(new Element("Puntuacion").setText(""+ jugadores.get(i).getPuntuacion()));
+
+
+            doc.getRootElement().addContent(jugador);
+
+
+            // new XMLOutputter().output(doc, System.out);
+            XMLOutputter xmlOutput = new XMLOutputter();
+
+            // display nice nice
+            xmlOutput.setFormat(Format.getPrettyFormat());
+            xmlOutput.output(doc, new FileWriter("c:\\Users\\David\\Documents\\NetBeansProjects\\modulo3-grupo2\\file.xml"));
+        }
+        System.out.println("File Saved!");
+      } catch (IOException io) {
+        System.out.println(io.getMessage());
+      }
     }
 
     @Override
